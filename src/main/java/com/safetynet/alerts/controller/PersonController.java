@@ -1,118 +1,71 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.controller.request.MapperDTO;
+import com.safetynet.alerts.controller.request.PersonDTO;
+import com.safetynet.alerts.exception.AlreadyExistsException;
+import com.safetynet.alerts.exception.GivenDataMismatchException;
+import com.safetynet.alerts.exception.NoContainException;
+import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/person")
 public class PersonController {
-    @Autowired
-    private IPersonService personService;
+//    @Autowired
+    private final IPersonService personService;
+//    @Autowired
+    private final MapperDTO mapperDTO;
 
-    // TODO faire transco DTO
+    public PersonController(IPersonService personService, MapperDTO mapperDTO) {
+        this.personService = personService;
+        this.mapperDTO = mapperDTO;
+    }
+
     @GetMapping("")
-    public Person getPerson(@RequestParam final String firstName,
-                            @RequestParam final String lastName ) throws IOException {
-        Optional<Person> person = personService.getPerson(firstName, lastName);
-        // return person.orElse(null);
-        if (person.isPresent()) {
-            return person.get();
-        } else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "person not found");
-        }
+    public ResponseEntity<PersonDTO> getPerson(@RequestParam final String firstName,
+                                               @RequestParam final String lastName ) throws IOException, NotFoundException, NoContainException {
+            Person person = personService.getPerson(firstName, lastName);
+            return new ResponseEntity<>(mapperDTO.personToPersonDTO(person), HttpStatus.OK);
+
     }
 
     @PostMapping("")
-    public Person createPerson(@RequestBody Person personTransmitted) throws IOException {
-        if (personTransmitted != null) {
-            if (    personTransmitted.getFirstName() != null &&
-                    personTransmitted.getLastName() != null &&
-                    personTransmitted.getAddress() != null &&
-                    personTransmitted.getCity() !=null &&
-                    personTransmitted.getZip() !=null &&
-                    personTransmitted.getPhone() !=null &&
-                    personTransmitted.getEmail() !=null ) {
-                    // TODO appeler méthode nonNull(t) && nonNull(t.getFirstname()....
+    public  ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonDTO personTransmitted) throws IOException, AlreadyExistsException {
 
-                Optional<Person> person = personService.getPerson(personTransmitted.getFirstName(), personTransmitted.getLastName());
-                if (person.isPresent()) {
-                    throw new ResponseStatusException(
-                            HttpStatus.FORBIDDEN, "person with these firstname and lastname already exist");
-                } else {
-                    // TODO voir pour forcer code retour 201
-                    return personService.addPerson(personTransmitted);
-                }
-            } else {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "at least a person field is missing");
-            }
+        Person pTransmitted = mapperDTO.personDTOToPerson(personTransmitted);
+        Person p = personService.addPerson(pTransmitted);
+        return new ResponseEntity<>(mapperDTO.personToPersonDTO(p), HttpStatus.CREATED);
 
-        } else
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "person not transmitted in body request");
     }
 
+
     @PutMapping("")
-    public Person updatePerson(@RequestParam final String firstName,
-                               @RequestParam final String lastName,
-                               @RequestBody Person personTransmitted) throws IOException {
-        Optional<Person> person = personService.getPerson(firstName, lastName);
-        if (person.isPresent()) {
-            Person currentPerson = person.get();
-            Person personToSave = person.get();
-
-            String newAdress = personTransmitted.getAddress();
-            if (newAdress != null) {
-                personToSave.setAddress(newAdress);
-            }
-            String newCity = personTransmitted.getCity();
-            if (newCity != null) {
-                personToSave.setCity(newCity);
-            }
-            Integer newZip = personTransmitted.getZip();
-            if (newZip != null) {
-                personToSave.setZip(newZip);
-            }
-            String newPhone = personTransmitted.getPhone();
-            if (newPhone!= null) {
-                personToSave.setPhone(newPhone);
-            }
-            String newEmail = personTransmitted.getEmail();
-            if (newEmail!= null) {
-                personToSave.setEmail(newEmail);
-            }
-
-            return personService.updatePerson(currentPerson, personToSave);
-
+    public  ResponseEntity<PersonDTO> updatePerson(@RequestParam final String firstName,
+                                        @RequestParam final String lastName,
+                                        @Valid @RequestBody PersonDTO personTransmitted) throws IOException, NotFoundException, GivenDataMismatchException {
+        if ( firstName.equals(personTransmitted.getFirstName() ) && lastName.equals(personTransmitted.getLastName()) ) {
+            Person pTransmitted = mapperDTO.personDTOToPerson(personTransmitted);
+            Person p = personService.updatePerson(firstName, lastName, pTransmitted);
+            return new ResponseEntity<>(mapperDTO.personToPersonDTO(p), HttpStatus.OK);
         } else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "person not found");
+            throw new GivenDataMismatchException("requestparams firstname and lastname mismatch with body person data");
         }
     }
 
     @DeleteMapping("")
-    public void deletePerson(@RequestParam final String firstName,
-                             @RequestParam final String lastName ) throws IOException {
-        // à revoir pour faire des vrais retours: non trouvé vs ok
-        System.out.println("entrée endpoint-delete: "+firstName+lastName);
-        Optional<Person> person = personService.getPerson(firstName, lastName);
-        if (person.isPresent()) {
-            System.out.println("isPresent ok -entree delete: "+firstName+lastName);
-            personService.deletePerson(person.get());
-        } else {
-            System.out.println("isPresent ko -HTTpStatus not found: "+firstName+lastName);
-            // TODO libellé non pris en compte - à revoir
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "person not found");
-        }
+    public  ResponseEntity<String> deletePerson(@RequestParam final String firstName,
+                                        @RequestParam final String lastName ) throws IOException, NotFoundException {
+
+        personService.deletePerson(firstName, lastName);
+        return new ResponseEntity<>("person deleted",HttpStatus.OK);
+
     }
 
 }

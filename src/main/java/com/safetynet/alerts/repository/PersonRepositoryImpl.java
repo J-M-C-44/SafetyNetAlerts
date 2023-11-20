@@ -2,8 +2,6 @@ package com.safetynet.alerts.repository;
 
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.JsonDataBaseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -11,16 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class personRepositoryImpl implements IPersonRepository {
-    @Autowired
-    JsonDataBaseService jsonDataBaseService;
+public class PersonRepositoryImpl implements IPersonRepository {
+//    @Autowired
+//    JsonDataBaseService jsonDataBaseService;
+
+    private final JsonDataBaseService jsonDataBaseService;
+
+    public PersonRepositoryImpl(JsonDataBaseService jsonDataBaseService) {
+        this.jsonDataBaseService = jsonDataBaseService;
+    }
 
     @Override
-    public Optional<Person> findByFirstNameAndLastName(String firstname, String lastname) throws IOException {
+    public Optional<Person> findByFirstNameAndLastName(String firstname, String lastname) {
         System.out.println("personRespository - findByFirstNameAndLastName "+firstname+lastname );
         List<Person> persons = jsonDataBaseService.getPersons();
         for (Person person: persons) {
-            System.out.println(person.getFirstName() + " " + person.getLastName());
+            //System.out.println(person.toString());
             if (person.getFirstName().equals(firstname) && person.getLastName().equals(lastname)) {
                 return Optional.of(person); }
         }
