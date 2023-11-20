@@ -2,6 +2,7 @@ package com.safetynet.alerts.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.safetynet.alerts.config.CustomProperties;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.JsonDataBase;
 import com.safetynet.alerts.model.Medicalrecord;
@@ -16,8 +17,14 @@ import java.util.List;
 @Service
 public class JsonDataBaseService implements CommandLineRunner {
 
+    private final CustomProperties customProperties;
+
     private JsonDataBase dataBase;
     ObjectMapper jsonMapper = new ObjectMapper();
+
+    public JsonDataBaseService(CustomProperties customProperties) {
+        this.customProperties = customProperties;
+    }
 
     @Override
     public void run(String[] args) throws IOException {
@@ -28,7 +35,9 @@ public class JsonDataBaseService implements CommandLineRunner {
             // --> a priori ok pour cload firestation mais reste pb de local date / medical records
             // --> mais KO sur update Person maintenant ....
         jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.dataBase = jsonMapper.readValue(new File("src/main/resources/data2.json"), JsonDataBase.class);
+
+        this.dataBase = jsonMapper.readValue(new File(customProperties.getJsonfilepathname()), JsonDataBase.class);
+//        this.dataBase = jsonMapper.readValue(new File("src/main/resources/data2.json"), JsonDataBase.class);
         System.out.println("chargement des données JSON au démarrage :" + this.dataBase.toString());
     }
 
