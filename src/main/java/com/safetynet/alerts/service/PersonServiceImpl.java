@@ -1,7 +1,6 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.exception.AlreadyExistsException;
-import com.safetynet.alerts.exception.NoContainException;
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.IPersonRepository;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -21,21 +19,32 @@ public class PersonServiceImpl implements IPersonService {
         this.personRepository = personRepository;
     }
 
-    public Person getPerson(String firstname, String lastname) throws NoContainException, IOException {
+//    public Person getPerson(String firstname, String lastname) throws NoContainException, IOException {
+//        logger.debug("  serv - getPerson - going to find person : firstname = {}, lastname = {}", firstname, lastname);
+//        Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
+//        if (person.isPresent()) {
+//            logger.debug("  serv - getPerson - find person OK for firstname = {}, lastname = {}", firstname, lastname);
+//            return person.get();
+//        } else {
+//            logger.debug("  serv - getPerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
+//           //throw new NotFoundException("person not found"); --> pas une exception / revoir le if du dessus du coup
+//            throw new NoContainException();
+//        }
+    public Optional<Person> getPerson(String firstname, String lastname) {
         logger.debug("  serv - getPerson - going to find person : firstname = {}, lastname = {}", firstname, lastname);
-        Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
-        if (person.isPresent()) {
-            logger.debug("  serv - getPerson - find person OK for firstname = {}, lastname = {}", firstname, lastname);
-            return person.get();
-        } else {
-            logger.debug("  serv - getPerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
-           //throw new NotFoundException("person not found"); --> pas une exception / revoir le if du dessus du coup
-            throw new NoContainException();
-        }
+        return personRepository.findByFirstNameAndLastName(firstname, lastname);
+//        if (person.isPresent()) {
+//            logger.debug("  serv - getPerson - find person OK for firstname = {}, lastname = {}", firstname, lastname);
+//            return person.get();
+//        } else {
+//            logger.debug("  serv - getPerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
+//            //throw new NotFoundException("person not found"); --> pas une exception / revoir le if du dessus du coup
+//            throw new NoContainException();
+
     }
 
     @Override
-    public Person addPerson(Person personToAdd) throws IOException {
+    public Person addPerson(Person personToAdd) {
         logger.debug("  serv - addPerson - going to verify if person already exist : firstname = {}, lastname = {}",
                      personToAdd.getFirstName(), personToAdd.getLastName());
         Optional<Person> person = personRepository.findByFirstNameAndLastName(personToAdd.getFirstName(), personToAdd.getLastName());
@@ -51,7 +60,7 @@ public class PersonServiceImpl implements IPersonService {
 
     }
     @Override
-    public Person updatePerson(String firstname, String lastname, Person personToUpdate) throws IOException, NotFoundException {
+    public Person updatePerson(String firstname, String lastname, Person personToUpdate) {
         logger.debug("  serv - updatePerson going to verify if person exist: firstname = {}, lastname = {}", firstname, lastname);
         Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
         if (person.isPresent()) {
@@ -65,7 +74,7 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public void deletePerson(String firstname, String lastname) throws IOException, NotFoundException {
+    public void deletePerson(String firstname, String lastname) {
         logger.debug("  serv - deletePerson going to verify if person exist: firstname = {}, lastname = {}", firstname, lastname);
         Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
         if (person.isPresent()) {

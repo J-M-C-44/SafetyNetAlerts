@@ -3,7 +3,8 @@ package com.safetynet.alerts.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.safetynet.alerts.config.CustomProperties;
-import com.safetynet.alerts.controller.PersonController;
+import com.safetynet.alerts.exception.UnloadedDatabaseException;
+import com.safetynet.alerts.exception.UnreachableDatabaseException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.JsonDataBase;
 import com.safetynet.alerts.model.Medicalrecord;
@@ -25,22 +26,30 @@ public class JsonDataBaseService implements CommandLineRunner {
 
     private JsonDataBase dataBase;
     ObjectMapper jsonMapper = new ObjectMapper();
+    private File jsonFile;
 
     public JsonDataBaseService(CustomProperties customProperties) {
         this.customProperties = customProperties;
     }
 
     @Override
-    public void run(String[] args) throws IOException {
-        // charger données depuis fichier JSON au démarrage
-        // TODO voir pourquoi les attributs de firestations et medicalrecords ne fonctionnent pas avec jakson ???
+    public void run(String[] args) {
+        // chargement données depuis fichier JSON au démarrage
+        try {
+            // TODO voir pourquoi les attributs de firestations et medicalrecords ne fonctionnent pas avec jakson ???
             // --> a priori ok pour load firestation mais reste pb de local date / medical records
-        jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        logger.debug("db - going to Load Database from JSON file : " + customProperties.getJsonfilepathname());
-        // TODO : voir si try and catch ou global exeption handler (ou mix des 2 try catch avec exception specifique ?
-        this.dataBase = jsonMapper.readValue(new File(customProperties.getJsonfilepathname()), JsonDataBase.class);
-        logger.info("Loading jsonDatabase complete");
+            logger.debug("db - going to Load Database from JSON file : {}", customProperties.getJsonfilepathname());
+            this.jsonFile = new File(customProperties.getJsonfilepathname());
+            this.dataBase = jsonMapper.readValue(this.jsonFile, JsonDataBase.class);
+            logger.info("Loading jsonDatabase complete");
+
+        } catch (IOException e) {
+            logger.error("unable to Load Database from JSON file {} ", customProperties.getJsonfilepathname());
+            throw new UnloadedDatabaseException("Unable to Load Database from JSON file " + customProperties.getJsonfilepathname());
+        }
+
     }
 
     public List<Person> getPersons() {
@@ -57,10 +66,14 @@ public class JsonDataBaseService implements CommandLineRunner {
         return this.dataBase.getMedicalrecords();
     }
 
-    public void saveDataBaseInFile() throws IOException {
-        // TODO : voir si try and catch ou global exeption handler (ou mix des 2 try catch avec exception specifique ? --> mix
+    public void saveDataBaseInFile() {
         logger.debug("      db - going to save jsonDatabase");
-        jsonMapper.writeValue(new File(customProperties.getJsonfilepathname()), this.dataBase);
-        logger.debug("      db - save jsonDatabase ok");
+        try {
+            jsonMapper.writeValue(this.jsonFile, this.dataBase);
+            logger.debug("      db - save jsonDatabase ok");
+        } catch (IOException e) {
+            logger.error("unable to save Database into JSON file {} ", this.jsonFile.getPath());
+            throw new UnreachableDatabaseException("Unable to store data");
+        }
     }
 }

@@ -24,4 +24,14 @@ public class MapperDTO {
                 personDTO.getPhone(),
                 personDTO.getEmail() );
     }
+
+    public Person personWithoutNameDTOToPerson(PersonWithoutNameDTO personWithoutNameDTO, String firstName, String lastName) {
+        return new Person(firstName,
+                lastName,
+                personWithoutNameDTO.getAddress(),
+                personWithoutNameDTO.getCity(),
+                personWithoutNameDTO.getZip(),
+                personWithoutNameDTO.getPhone(),
+                personWithoutNameDTO.getEmail() );
+    }
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
     }
 
     @Override
-    public void delete(Person personToDelete) throws IOException {
+    public void delete(Person personToDelete) {
         logger.debug("    repo -  delete  person : {}", personToDelete);
         List<Person> persons = jsonDataBaseService.getPersons();
         persons.remove(personToDelete);
@@ -45,7 +44,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
     }
 
     @Override
-    public Person add(Person personToAdd) throws IOException {
+    public Person add(Person personToAdd) {
         logger.debug("    repo -  add  person : {}", personToAdd);
         List<Person> persons = jsonDataBaseService.getPersons();
         persons.add(personToAdd);
@@ -55,7 +54,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
     }
 
     @Override
-    public Person update(Person currentPerson, Person personToUpdate) throws IOException {
+    public Person update(Person currentPerson, Person personToUpdate){
         logger.debug("    repo -  update person : {}", personToUpdate);
         List<Person> persons = jsonDataBaseService.getPersons();
         persons.set(persons.indexOf(currentPerson), personToUpdate);
