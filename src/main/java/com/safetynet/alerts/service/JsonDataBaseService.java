@@ -46,6 +46,7 @@ public class JsonDataBaseService implements CommandLineRunner {
             logger.info("Loading jsonDatabase complete");
 
         } catch (IOException e) {
+            e.printStackTrace();
             logger.error("unable to Load Database from JSON file {} ", customProperties.getJsonfilepathname());
             throw new UnloadedDatabaseException("Unable to Load Database from JSON file " + customProperties.getJsonfilepathname());
         }

@@ -6,13 +6,13 @@ import com.safetynet.alerts.controller.request.PersonWithoutNameDTO;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
