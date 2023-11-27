@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller.request;
 
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Service;
 
@@ -17,21 +18,36 @@ public class MapperDTO {
 
     public Person personDTOToPerson(PersonDTO personDTO) {
         return new Person(personDTO.getFirstName(),
-                personDTO.getLastName(),
-                personDTO.getAddress(),
-                personDTO.getCity(),
-                personDTO.getZip(),
-                personDTO.getPhone(),
-                personDTO.getEmail() );
+                          personDTO.getLastName(),
+                          personDTO.getAddress(),
+                          personDTO.getCity(),
+                          personDTO.getZip(),
+                          personDTO.getPhone(),
+                          personDTO.getEmail() );
     }
 
     public Person personWithoutNameDTOToPerson(PersonWithoutNameDTO personWithoutNameDTO, String firstName, String lastName) {
         return new Person(firstName,
-                lastName,
-                personWithoutNameDTO.getAddress(),
-                personWithoutNameDTO.getCity(),
-                personWithoutNameDTO.getZip(),
-                personWithoutNameDTO.getPhone(),
-                personWithoutNameDTO.getEmail() );
+                          lastName,
+                          personWithoutNameDTO.getAddress(),
+                          personWithoutNameDTO.getCity(),
+                          personWithoutNameDTO.getZip(),
+                          personWithoutNameDTO.getPhone(),
+                          personWithoutNameDTO.getEmail() );
+    }
+
+    public FirestationDTO firestationToFirestationDTO(Firestation firestation) {
+        return new FirestationDTO(firestation.getAddress(),
+                                  firestation.getStation());
+    }
+
+    public Firestation firestationDTOToFirestation(FirestationDTO firestationDTO) {
+        return new Firestation(firestationDTO.getAddress(),
+                               firestationDTO.getStation());
+    }
+
+    public Firestation firestationWithoutAdressDTOToFirestation(FirestationWithoutAddressDTO firestationWithoutAddressDTO, String address) {
+        return new Firestation(address,
+                               firestationWithoutAddressDTO.getStation());
     }
 }

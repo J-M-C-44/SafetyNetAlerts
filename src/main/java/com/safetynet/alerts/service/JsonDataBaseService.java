@@ -36,8 +36,6 @@ public class JsonDataBaseService implements CommandLineRunner {
     public void run(String[] args) {
         // chargement données depuis fichier JSON au démarrage
         try {
-            // TODO voir pourquoi les attributs de firestations et medicalrecords ne fonctionnent pas avec jakson ???
-            // --> a priori ok pour load firestation mais reste pb de local date / medical records
             jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             logger.debug("db - going to Load Database from JSON file : {}", customProperties.getJsonfilepathname());

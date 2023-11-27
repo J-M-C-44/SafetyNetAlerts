@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public class PersonRepositoryImpl implements IPersonRepository {
     private static final Logger logger = LogManager.getLogger(PersonRepositoryImpl.class);
-//    @Autowired
-//    JsonDataBaseService jsonDataBaseService;
     private final JsonDataBaseService jsonDataBaseService;
 
     public PersonRepositoryImpl(JsonDataBaseService jsonDataBaseService) {

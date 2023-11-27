@@ -1,35 +1,31 @@
-package com.safetynet.alerts.model;
+package com.safetynet.alerts.controller.request;
 
-public class Firestation {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
+public class FirestationDTO {
+    @NotBlank
     private String address;
+    @NotBlank
+    @Pattern(regexp = "[0-9]{1,999999999}")
     private String station;
 
-    public Firestation(String address, String station) {
+    public FirestationDTO(String address, String station) {
         this.address = address;
         this.station = station;
-    }
-    public Firestation() {
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getStation() {
         return station;
     }
 
-    public void setStation(String station) {
-        this.station = station;
-    }
-
     @Override
     public String toString() {
-        return "Firestation{" +
+        return "FirestationDTO{" +
                 "address='" + address + '\'' +
                 ", station=" + station +
                 '}';
