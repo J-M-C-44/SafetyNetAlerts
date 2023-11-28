@@ -61,7 +61,7 @@ public class FirestationController {
         logger.info("ctlr - received request - PUT Firestation: address = {} - {}", address, firestationTransmitted);
 
         Firestation fTransmitted = mapperDTO.firestationWithoutAdressDTOToFirestation(firestationTransmitted, address);
-        Firestation f = firestationService.updateFirestation(address, fTransmitted);
+        Firestation f = firestationService.updateFirestation(fTransmitted);
         ResponseEntity<FirestationDTO> response = new ResponseEntity<>(mapperDTO.firestationToFirestationDTO(f), HttpStatus.OK);
         logger.info("ctlr - response request - PUT Firestation : {}", response);
         return response;

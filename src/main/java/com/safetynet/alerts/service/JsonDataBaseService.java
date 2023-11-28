@@ -7,7 +7,7 @@ import com.safetynet.alerts.exception.UnloadedDatabaseException;
 import com.safetynet.alerts.exception.UnreachableDatabaseException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.JsonDataBase;
-import com.safetynet.alerts.model.Medicalrecord;
+import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -60,7 +60,8 @@ public class JsonDataBaseService implements CommandLineRunner {
         logger.debug("      db - going to access firestations from Jsondatabase");
         return this.dataBase.getFirestations();
     }
-    public List<Medicalrecord> getMedicalrecords() {
+    public List<MedicalRecord> getMedicalRecords() {
+//    public List<MedicalRecord> getMedicalRecords() {
         logger.debug("      db - going to access medicalrecords from Jsondatabase");
         return this.dataBase.getMedicalrecords();
     }

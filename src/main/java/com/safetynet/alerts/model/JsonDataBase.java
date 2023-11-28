@@ -5,7 +5,7 @@ import java.util.List;
 public class JsonDataBase {
     private List<Person> persons;
     private List<Firestation> firestations;
-    private List<Medicalrecord> medicalrecords;
+    private List<MedicalRecord> medicalrecords;
 
 
     public List<Person> getPersons() {
@@ -24,11 +24,11 @@ public class JsonDataBase {
         this.firestations = firestations;
     }
 
-    public List<Medicalrecord> getMedicalrecords() {
+    public List<MedicalRecord> getMedicalrecords() {
         return medicalrecords;
     }
 
-    public void setMedicalRecords(List<Medicalrecord> medicalrecords) {
+    public void setMedicalRecords(List<MedicalRecord> medicalrecords) {
         this.medicalrecords = medicalrecords;
     }
 

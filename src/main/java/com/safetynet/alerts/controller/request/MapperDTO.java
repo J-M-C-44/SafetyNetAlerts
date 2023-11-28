@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller.request;
 
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,29 @@ public class MapperDTO {
     public Firestation firestationWithoutAdressDTOToFirestation(FirestationWithoutAddressDTO firestationWithoutAddressDTO, String address) {
         return new Firestation(address,
                                firestationWithoutAddressDTO.getStation());
+    }
+
+    public MedicalRecord medicalRecordDTOToMedicalRecord(MedicalRecordDTO medicalRecordTransmitted) {
+        return new MedicalRecord(medicalRecordTransmitted.getFirstName(),
+                                 medicalRecordTransmitted.getLastName(),
+                                 medicalRecordTransmitted.getBirthdate(),
+                                 medicalRecordTransmitted.getMedications(),
+                                 medicalRecordTransmitted.getAllergies());
+    }
+
+    public MedicalRecordDTO medicalRecordToMedicalRecordDTO(MedicalRecord medicalRecord) {
+        return new MedicalRecordDTO(medicalRecord.getFirstName(),
+                                    medicalRecord.getLastName(),
+                                    medicalRecord.getBirthdate(),
+                                    medicalRecord.getMedications(),
+                                    medicalRecord.getAllergies());
+    }
+
+    public MedicalRecord medicalRecordWithoutNameDTOToMedicalRecord(MedicalRecordWithoutNameDTO medicalRecordWithoutNameDTO, String firstName, String lastName) {
+        return new MedicalRecord(firstName,
+                                 lastName,
+                                 medicalRecordWithoutNameDTO.getBirthdate(),
+                                 medicalRecordWithoutNameDTO.getMedications(),
+                                 medicalRecordWithoutNameDTO.getAllergies());
     }
 }

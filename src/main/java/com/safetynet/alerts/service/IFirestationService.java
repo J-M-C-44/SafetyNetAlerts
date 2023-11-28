@@ -12,11 +12,11 @@ public interface IFirestationService {
     Firestation addFirestation(Firestation firestationToAdd);
 
     // maj  1 firestation à partir d'une adresse
-    Firestation updateFirestation(String address, Firestation firestationToUpdate);
+    Firestation updateFirestation(Firestation firestationToUpdate);
 
     // supprimer  1 firestation par adresse
     void deleteFirestationByAddress(String address);
 
-    // supprimer  1 firestation par station
+    // supprimer  x firestation par numero de station
     void deleteFirestationByStation(String station);
 }

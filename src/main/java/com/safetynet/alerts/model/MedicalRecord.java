@@ -2,18 +2,21 @@ package com.safetynet.alerts.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-public class Medicalrecord {
+public class MedicalRecord {
     private String firstName;
     private String lastName;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date birthdate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    private LocalDate birthdate;
+    private String birthdate;
     private List<String> medications;
     private List<String> allergies;
 
-    public Medicalrecord(String firstName, String lastName, Date birthdate, List<String> medications, List<String> allergies) {
+//    public MedicalRecord(String firstName, String lastName, LocalDate birthdate, List<String> medications, List<String> allergies) {
+    public MedicalRecord(String firstName, String lastName, String birthdate, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
@@ -21,7 +24,7 @@ public class Medicalrecord {
         this.allergies = allergies;
     }
 
-    public Medicalrecord() {
+    public MedicalRecord() {
     }
 
     public String getFirstName() {
@@ -40,11 +43,13 @@ public class Medicalrecord {
         this.lastName = lastName;
     }
 
-    public Date getBirthdate() {
+    //public LocalDate getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+//    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -62,5 +67,16 @@ public class Medicalrecord {
 
     public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
+    }
+
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthdate='" + birthdate + '\'' +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                '}';
     }
 }

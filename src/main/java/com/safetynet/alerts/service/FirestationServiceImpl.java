@@ -3,7 +3,6 @@ package com.safetynet.alerts.service;
 import com.safetynet.alerts.exception.AlreadyExistsException;
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.IFirestationRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,15 +43,15 @@ public class FirestationServiceImpl implements IFirestationService{
     }
 
     @Override
-    public Firestation updateFirestation(String address, Firestation firestationToUpdate) {
-        logger.debug("  serv - updateFirestation going to verify if firestation exist with address = {}", address);
-        Optional<Firestation> firestation = firestationRepository.findByAddress(address);
+    public Firestation updateFirestation(Firestation firestationToUpdate) {
+        logger.debug("  serv - updateFirestation going to verify if firestation exist with address = {}", firestationToUpdate.getAddress());
+        Optional<Firestation> firestation = firestationRepository.findByAddress(firestationToUpdate.getAddress());
         if (firestation.isPresent()) {
-            logger.debug("  serv - updateFirestation going to update firestation : address = {}", address);
+            logger.debug("  serv - updateFirestation going to update firestation : address = {}", firestationToUpdate.getAddress());
             Firestation currentFirestation = firestation.get();
             return firestationRepository.update(currentFirestation, firestationToUpdate);
         } else {
-            logger.debug("  serv - updateFirestation KO - firestation not found: address = {}, lastname = {}", address);
+            logger.debug("  serv - updateFirestation KO - firestation not found: address = {}", firestationToUpdate.getAddress());
             throw new NotFoundException("firestation not found");
         }
     }
@@ -76,7 +75,8 @@ public class FirestationServiceImpl implements IFirestationService{
     public void deleteFirestationByStation(String station) {
         logger.debug("  serv - deleteFirestation going to verify if firestation exist for station = {}", station);
         List<Firestation> firestations = firestationRepository.findByStation(station);
-        if (firestations.size() > 0) {
+//        if (firestations.size() > 0) {
+        if (!firestations.isEmpty()) {
             logger.debug("  serv - deleteFirestation going to delete firestation : station = {}", station);
             // methode 1 : boucle for
             // for (Firestation firestationToDelete : firestations) {

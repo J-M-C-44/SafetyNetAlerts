@@ -64,7 +64,7 @@ public class PersonController {
                 firstName, lastName, personTransmitted);
 
         Person pTransmitted = mapperDTO.personWithoutNameDTOToPerson(personTransmitted, firstName, lastName);
-        Person p = personService.updatePerson(firstName, lastName, pTransmitted);
+        Person p = personService.updatePerson(pTransmitted);
         ResponseEntity<PersonDTO> response = new ResponseEntity<>(mapperDTO.personToPersonDTO(p), HttpStatus.OK);
         logger.info("ctlr - response request - PUT Person : {}", response);
         return response;

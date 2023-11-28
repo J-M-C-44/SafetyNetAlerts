@@ -60,15 +60,18 @@ public class PersonServiceImpl implements IPersonService {
 
     }
     @Override
-    public Person updatePerson(String firstname, String lastname, Person personToUpdate) {
-        logger.debug("  serv - updatePerson going to verify if person exist: firstname = {}, lastname = {}", firstname, lastname);
-        Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
+    public Person updatePerson(Person personToUpdate) {
+        logger.debug("  serv - updatePerson going to verify if person exist: firstname = {}, lastname = {}",
+                        personToUpdate.getFirstName(), personToUpdate.getLastName());
+        Optional<Person> person = personRepository.findByFirstNameAndLastName(personToUpdate.getFirstName(), personToUpdate.getLastName());
         if (person.isPresent()) {
-            logger.debug("  serv - updatePerson going to update person : firstname = {}, lastname = {}", firstname, lastname);
+            logger.debug("  serv - updatePerson going to update person : firstname = {}, lastname = {}",
+                            personToUpdate.getFirstName(), personToUpdate.getLastName());
             Person currentPerson = person.get();
             return personRepository.update(currentPerson, personToUpdate);
         } else {
-            logger.debug("  serv - updatePerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
+            logger.debug("  serv - updatePerson KO - person not found: firstname = {}, lastname = {}",
+                            personToUpdate.getFirstName(), personToUpdate.getLastName());
             throw new NotFoundException("person not found");
         }
     }

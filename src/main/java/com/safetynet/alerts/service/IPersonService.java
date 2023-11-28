@@ -14,7 +14,7 @@ public interface IPersonService {
     Person addPerson(Person personToSave);
 
     // maj  1 personne
-    Person updatePerson(String firstname, String lastname, Person personToSave);
+    Person updatePerson(Person personToSave);
 
     // supprimer  1 personne
     void deletePerson(String firstname, String lastname);
