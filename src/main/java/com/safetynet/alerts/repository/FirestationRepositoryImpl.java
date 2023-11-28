@@ -67,10 +67,10 @@ public class FirestationRepositoryImpl implements IFirestationRepository{
                                                 .filter(firestation -> firestation.getStation().equals(station))
                                                 .collect(Collectors.toList());
 
-        if (foundedFirestations.size() > 0) {
-            logger.debug("    repo - findByStation OK for station = {} -> {} found" , station, foundedFirestations.size());
-        } else {
+        if (foundedFirestations.isEmpty()) {
             logger.debug("    repo - findByAddress not found for station = {}", station);
+        } else {
+            logger.debug("    repo - findByStation OK for station = {} -> {} found" , station, foundedFirestations.size());
         }
         return foundedFirestations;
 

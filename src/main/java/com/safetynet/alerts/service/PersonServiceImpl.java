@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,28 +20,9 @@ public class PersonServiceImpl implements IPersonService {
         this.personRepository = personRepository;
     }
 
-//    public Person getPerson(String firstname, String lastname) throws NoContainException, IOException {
-//        logger.debug("  serv - getPerson - going to find person : firstname = {}, lastname = {}", firstname, lastname);
-//        Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
-//        if (person.isPresent()) {
-//            logger.debug("  serv - getPerson - find person OK for firstname = {}, lastname = {}", firstname, lastname);
-//            return person.get();
-//        } else {
-//            logger.debug("  serv - getPerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
-//           //throw new NotFoundException("person not found"); --> pas une exception / revoir le if du dessus du coup
-//            throw new NoContainException();
-//        }
     public Optional<Person> getPerson(String firstname, String lastname) {
         logger.debug("  serv - getPerson - going to find person : firstname = {}, lastname = {}", firstname, lastname);
         return personRepository.findByFirstNameAndLastName(firstname, lastname);
-//        if (person.isPresent()) {
-//            logger.debug("  serv - getPerson - find person OK for firstname = {}, lastname = {}", firstname, lastname);
-//            return person.get();
-//        } else {
-//            logger.debug("  serv - getPerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
-//            //throw new NotFoundException("person not found"); --> pas une exception / revoir le if du dessus du coup
-//            throw new NoContainException();
-
     }
 
     @Override
@@ -57,8 +39,8 @@ public class PersonServiceImpl implements IPersonService {
                          personToAdd.getFirstName(), personToAdd.getLastName());
             return personRepository.add(personToAdd);
         }
-
     }
+
     @Override
     public Person updatePerson(Person personToUpdate) {
         logger.debug("  serv - updatePerson going to verify if person exist: firstname = {}, lastname = {}",
@@ -89,4 +71,11 @@ public class PersonServiceImpl implements IPersonService {
             throw new NotFoundException("person not found");
         }
     }
+
+    @Override
+    public List<String> getCommunityEmails(String city) {
+        logger.debug("  serv - getCommunityEmail - going to find emails for city = {}", city);
+        return personRepository.findEmailsBycity(city);
+    }
+
 }

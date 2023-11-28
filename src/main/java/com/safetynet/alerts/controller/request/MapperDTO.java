@@ -5,6 +5,8 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MapperDTO {
     public PersonDTO personToPersonDTO(Person person) {
@@ -74,5 +76,9 @@ public class MapperDTO {
                                  medicalRecordWithoutNameDTO.getBirthdate(),
                                  medicalRecordWithoutNameDTO.getMedications(),
                                  medicalRecordWithoutNameDTO.getAllergies());
+    }
+
+    public CommunityEmailsDTO emailsToCommunityEmailsDTO(List<String> emails) {
+        return new CommunityEmailsDTO(emails);
     }
 }

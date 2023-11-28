@@ -1,5 +1,6 @@
 package com.safetynet.alerts.repository;
 
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.JsonDataBaseService;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonRepositoryImpl implements IPersonRepository {
@@ -59,5 +61,25 @@ public class PersonRepositoryImpl implements IPersonRepository {
         jsonDataBaseService.saveDataBaseInFile();
         logger.debug("  repo -  update person OK for {}", personToUpdate);
         return personToUpdate;
+    }
+
+    @Override
+    public List<String> findEmailsBycity(String city) {
+        logger.debug("    repo - findEmailsBycity : city = {}", city);
+
+        List<String> emailsForCity = jsonDataBaseService.getPersons()
+                .stream()
+                .filter(person -> person.getCity().equals(city))
+//                .map(Person -> Person.getEmail())
+                .map(Person::getEmail)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (emailsForCity.isEmpty()) {
+            logger.debug("    repo - findEmailsBycity not found for city = {}", city);
+        } else {
+            logger.debug("    repo - findEmailsBycity OK for city = {} -> {} found" , city, emailsForCity.size());
+        }
+        return emailsForCity;
     }
 }

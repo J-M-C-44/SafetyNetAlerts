@@ -121,7 +121,7 @@ public class GlobalExceptionHandler {
         //todo : voir comment laisser code http par défaut pour tout ce qui est de type 400
         ResponseEntity<Object> response =  new ResponseEntity<>("unexpected internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
         logger.error("request with other Exception : received = {}, exception = {}", received, exception);
-
+        exception.printStackTrace();
         return response;
     }
 

@@ -13,11 +13,6 @@ public class MedicalRecordDTO {
     private String firstName;
     @NotBlank
     private String lastName;
-    //@NotBlank
-    // TODO @Pattern() type dd/mm/7777
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-//    private LocalDate birthdate;@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-//    @Pattern(regexp = "^[0-9]{2,}/[0-9]{2}/[0-9]{4}$")
     @Pattern(regexp = "^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19|20)[0-9]{2}$",
              message = "must have a format like dd/MM/yyyy - ex: 16/06/1977")
     private String birthdate;

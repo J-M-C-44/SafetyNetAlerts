@@ -75,8 +75,10 @@ public class FirestationServiceImpl implements IFirestationService{
     public void deleteFirestationByStation(String station) {
         logger.debug("  serv - deleteFirestation going to verify if firestation exist for station = {}", station);
         List<Firestation> firestations = firestationRepository.findByStation(station);
-//        if (firestations.size() > 0) {
-        if (!firestations.isEmpty()) {
+        if (firestations.isEmpty()) {
+            logger.debug("  serv - deleteFirestation KO - firestation not found: station = {}", station);
+            throw new NotFoundException("firestation not found");
+        } else {
             logger.debug("  serv - deleteFirestation going to delete firestation : station = {}", station);
             // methode 1 : boucle for
             // for (Firestation firestationToDelete : firestations) {
@@ -86,9 +88,6 @@ public class FirestationServiceImpl implements IFirestationService{
             // firestations.forEach(firestationToDelete -> firestationRepository.delete(firestationToDelete));
             // méthode 3 : foreach + methode reférence
             firestations.forEach(firestationRepository::delete);
-        } else {
-            logger.debug("  serv - deleteFirestation KO - firestation not found: station = {}", station);
-            throw new NotFoundException("firestation not found");
         }
 
     }
