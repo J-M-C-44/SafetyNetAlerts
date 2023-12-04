@@ -1,8 +1,8 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.controller.request.CommunityEmailsDTO;
-import com.safetynet.alerts.controller.request.MapperDTO;
+import com.safetynet.alerts.controller.request.*;
 import com.safetynet.alerts.service.IPersonService;
+import com.safetynet.alerts.service.ITransverseService;
 import jakarta.validation.constraints.NotBlank;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,11 +22,28 @@ public class TransverseController {
     private static final Logger logger = LogManager.getLogger(TransverseController.class);
 
     private final IPersonService personService;
+    private final ITransverseService transverseService;
     private final MapperDTO mapperDTO;
 
-    public TransverseController(IPersonService personService, MapperDTO mapperDTO) {
+    public TransverseController(IPersonService personService, ITransverseService transverseService, MapperDTO mapperDTO) {
         this.personService = personService;
+        this.transverseService = transverseService;
         this.mapperDTO = mapperDTO;
+    }
+
+        // liste des personnes couvertes par station + nb adultes et enfants
+    @GetMapping("/firestation")
+    public ResponseEntity<PersonsCoveredByStationDTO> getPersonsCoveredByStation(@NotBlank @RequestParam final String stationNumber ) {
+
+        logger.info("ctlr - received request - GET getPersonsCovererdByStation: stationNumber = {}", stationNumber);
+
+        PersonsCoveredByStation personsCoveredByStation = transverseService.getPersonsCoveredByStation(stationNumber);
+        ResponseEntity<PersonsCoveredByStationDTO> response = personsCoveredByStation.getPersons().isEmpty()
+                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(mapperDTO.personsCoveredByStationToPersonsCoveredByStationDTO(personsCoveredByStation), HttpStatus.OK);
+        logger.info("ctlr - response request - GET getPersonsCovererdByStation : {}", response);
+        return response;
+
     }
 
     @GetMapping("/communityEmail")
@@ -42,5 +59,19 @@ public class TransverseController {
         return response;
 
     }
+
+    @GetMapping("/childAlert")
+    public ResponseEntity<List<ChildAlertDTO>> getChildrenAndHomeMembers(@NotBlank @RequestParam final String address ) {
+        logger.info("ctlr - received request - GET getChildrenAndHomeMembers: address = {}", address);
+
+        List<ChildAndHomeMembers> childrenAndHomeMembers = transverseService.getChildrenAndHomeMembersByAddress(address);
+        ResponseEntity<List<ChildAlertDTO>> response = childrenAndHomeMembers.isEmpty()
+                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(mapperDTO.childrenAndHomeMembersToChildAlertDTO(childrenAndHomeMembers), HttpStatus.OK);
+        logger.info("ctlr - response request - GET getChildrenAndHomeMembers : {}", response);
+        return response;
+
+    }
+
 
 }

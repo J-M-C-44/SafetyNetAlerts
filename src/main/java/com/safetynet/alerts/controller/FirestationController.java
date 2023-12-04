@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Validated
 @RestController
 @RequestMapping("/firestation")
@@ -26,20 +24,20 @@ public class FirestationController {
         this.firestationService = firestationService;
         this.mapperDTO = mapperDTO;
     }
+    //TODO: à voir si je garde ou pas -> pose pb sur "mauvais" endpoint firestation car doublon
+//    @GetMapping("")
+//    public ResponseEntity<FirestationDTO> getFirestationByStation(@NotBlank @RequestParam final String address,
+//                                                                  @NotBlank @RequestParam final String station ) {
+//
+//        logger.info("ctlr - received request - GET Firestation: address = {}, station = {}",  address, station);
+//        Optional<Firestation> firestation = firestationService.getFirestation(address, station);
+//        ResponseEntity<FirestationDTO> response = firestation.isPresent()
+//                ? new ResponseEntity<>(mapperDTO.firestationToFirestationDTO(firestation.get()), HttpStatus.OK)
+//                : new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+//        logger.info("ctlr - response request - GET Firestation : {}", response);
+//        return response;
+//    }
 
-    @GetMapping("")
-    public ResponseEntity<FirestationDTO> getFirestation(@NotBlank @RequestParam final String address,
-                                                         @NotBlank @RequestParam final String station ) {
-
-        logger.info("ctlr - received request - GET Firestation: address = {}, station = {}",  address, station);
-        Optional<Firestation> firestation = firestationService.getFirestation(address, station);
-        ResponseEntity<FirestationDTO> response = firestation.isPresent()
-                ? new ResponseEntity<>(mapperDTO.firestationToFirestationDTO(firestation.get()), HttpStatus.OK)
-                : new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        logger.info("ctlr - response request - GET Firestation : {}", response);
-        return response;
-
-    }
     // ajouter une firestation
     @PostMapping("")
     public  ResponseEntity<FirestationDTO> createFirestation(@Valid @RequestBody FirestationDTO firestationTransmitted) {
@@ -50,9 +48,7 @@ public class FirestationController {
         ResponseEntity<FirestationDTO> response = new ResponseEntity<>(mapperDTO.firestationToFirestationDTO(f), HttpStatus.CREATED);
         logger.info("ctlr - response request - POST Firestation : {}", response);
         return response;
-
     }
-
 
     // modifier n° de station
     @PutMapping("/{address}")
@@ -67,17 +63,18 @@ public class FirestationController {
         return response;
     }
 
+    // supprimer 1 couple adresse/station à partir de son adresse
     @DeleteMapping("/{address}")
-    public  ResponseEntity<String> deleteFirestationbyAdress(@NotBlank @PathVariable("address") final String address) {
+    public  ResponseEntity<String> deleteFirestationByAddress(@NotBlank @PathVariable("address") final String address) {
         logger.info("ctlr - received request - DELETE Firestation by adress = {}, ",  address);
         firestationService.deleteFirestationByAddress(address);
         ResponseEntity<String> response = new ResponseEntity<>("Firestation deleted",HttpStatus.OK);
         logger.info("ctlr - response request - DELETE Firestation by adress : {}", response);
         return response;
-        }
-
+    }
+    // supprimer tous les couples adresses/station à partir du numéro de stations
     @DeleteMapping("")
-    public  ResponseEntity<String> deleteFirestationbyStation(@NotBlank @RequestParam("station") final String station) {
+    public  ResponseEntity<String> deleteFirestationByStation(@NotBlank @RequestParam("station") final String station) {
         logger.info("ctlr - received request - DELETE Firestation by station = {}, ",  station);
         firestationService.deleteFirestationByStation(station);
         ResponseEntity<String> response = new ResponseEntity<>("Firestation deleted",HttpStatus.OK);

@@ -1,21 +1,14 @@
 package com.safetynet.alerts.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class MedicalRecord {
     private String firstName;
     private String lastName;
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-//    private LocalDate birthdate;
     private String birthdate;
     private List<String> medications;
     private List<String> allergies;
 
-//    public MedicalRecord(String firstName, String lastName, LocalDate birthdate, List<String> medications, List<String> allergies) {
     public MedicalRecord(String firstName, String lastName, String birthdate, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,12 +36,10 @@ public class MedicalRecord {
         this.lastName = lastName;
     }
 
-    //public LocalDate getBirthdate() {
     public String getBirthdate() {
         return birthdate;
     }
 
-//    public void setBirthdate(LocalDate birthdate) {
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }

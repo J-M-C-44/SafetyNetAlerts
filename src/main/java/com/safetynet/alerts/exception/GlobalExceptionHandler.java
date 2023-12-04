@@ -83,7 +83,6 @@ public class GlobalExceptionHandler {
         return response;
     }
 
-    //NotFoundException
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException exception, HttpServletRequest request)  {
         String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "

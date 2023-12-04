@@ -81,4 +81,26 @@ public class MapperDTO {
     public CommunityEmailsDTO emailsToCommunityEmailsDTO(List<String> emails) {
         return new CommunityEmailsDTO(emails);
     }
+
+
+    public PersonsCoveredByStationDTO personsCoveredByStationToPersonsCoveredByStationDTO(PersonsCoveredByStation personsCoveredByStation) {
+        List<Person> persons = personsCoveredByStation.getPersons();
+        List<PersonCoveredByStationDTO> personsCovered = persons.stream()
+                .map(p -> new PersonCoveredByStationDTO(p.getFirstName(),p.getLastName(),p.getAddress(),p.getPhone()))
+                .toList();
+        return new PersonsCoveredByStationDTO(personsCovered,
+                personsCoveredByStation.getAdultsCount(),
+                personsCoveredByStation.getChildrenCount());
+    }
+
+    public List<ChildAlertDTO> childrenAndHomeMembersToChildAlertDTO(List<ChildAndHomeMembers> childrenAndHomeMembers) {
+
+        return childrenAndHomeMembers.stream()
+                .map(c -> new ChildAlertDTO(c.getMedicalRecord().getFirstName(),
+                                            c.getMedicalRecord().getLastName(),
+                                            c.getChildAge(),
+                                            c.getOtherHomeMembers()))
+                .toList();
+
+    }
 }

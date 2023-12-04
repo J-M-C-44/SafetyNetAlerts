@@ -1,13 +1,11 @@
 package com.safetynet.alerts.controller.request;
 
-import com.safetynet.alerts.controller.PersonController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 
 @Component
@@ -28,8 +26,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     // TODO : comment récupérer le body ?
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         logger.info("output response : {} {}", response.getStatus(), response.getContentType());
     }
 }

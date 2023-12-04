@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface IPersonRepository {
     Optional<Person> findByFirstNameAndLastName(String firstname, String lastname);
+    List<Person> findByAddress(String address);
+
     void delete(Person personToDelete);
     Person add(Person personToAdd);
     Person update(Person currentPerson, Person personToUpdate);

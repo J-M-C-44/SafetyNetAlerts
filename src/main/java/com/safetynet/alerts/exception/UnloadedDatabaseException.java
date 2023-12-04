@@ -4,6 +4,5 @@ public class UnloadedDatabaseException extends RuntimeException{
     public UnloadedDatabaseException(String message) {
         super(message);
         printStackTrace();
-        //TODO : voir comment planter proprement !
     }
 }

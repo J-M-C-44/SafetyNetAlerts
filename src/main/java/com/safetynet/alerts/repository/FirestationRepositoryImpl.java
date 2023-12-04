@@ -1,16 +1,13 @@
 package com.safetynet.alerts.repository;
 
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.JsonDataBaseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class FirestationRepositoryImpl implements IFirestationRepository{
@@ -31,7 +28,7 @@ public class FirestationRepositoryImpl implements IFirestationRepository{
                 logger.debug("    repo - findByAddressAndStation OK for: address = {}, station = {}", address, station);
                 return Optional.of(firestation); }
         }
-        logger.debug("    repo - findByAddressAndStation not found for address = {}, station = {}", address, station);;
+        logger.debug("    repo - findByAddressAndStation not found for address = {}, station = {}", address, station);
         return Optional.empty();
     }
 
@@ -44,28 +41,17 @@ public class FirestationRepositoryImpl implements IFirestationRepository{
                 logger.debug("    repo - findByAddress OK for: address = {}", address);
                 return Optional.of(firestation); }
         }
-        logger.debug("    repo - findByAddress not found for address = {}", address);;
+        logger.debug("    repo - findByAddress not found for address = {}", address);
         return Optional.empty();
     }
 
     @Override
     public List<Firestation> findByStation(String station) {
         logger.debug("    repo - findByAddress : station = {}", station);
-
-        //méthode 1
-//        List<Firestation> firestations = jsonDataBaseService.getFirestations();
-//        List<Firestation> foundedFirestations = new ArrayList<>();
-//        for (Firestation firestation: firestations) {
-//            if (firestation.getStation().equals(station)) {
-//                foundedFirestations.add(firestation);
-//            };
-//        };
-
-        //méthode 2
         List<Firestation> foundedFirestations = jsonDataBaseService.getFirestations()
                                                 .stream()
                                                 .filter(firestation -> firestation.getStation().equals(station))
-                                                .collect(Collectors.toList());
+                                                .toList();
 
         if (foundedFirestations.isEmpty()) {
             logger.debug("    repo - findByAddress not found for station = {}", station);

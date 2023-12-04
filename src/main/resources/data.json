@@ -191,6 +191,14 @@
     "zip" : "98887",
     "phone" : "841-874-6512",
     "email" : "jaboyd3@email.com"
+  }, {
+    "firstName" : "John",
+    "lastName" : "Boyd4",
+    "address" : "1509 Culver St",
+    "city" : "Culver",
+    "zip" : "99999",
+    "phone" : "841-874-6552",
+    "email" : "toto@gmail.com"
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",
@@ -234,6 +242,9 @@
   }, {
     "address" : "paris 2",
     "station" : "123456"
+  }, {
+    "address" : "paris 2",
+    "station" : "12345"
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -373,11 +384,5 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
-  }, {
-    "firstName" : "John",
-    "lastName" : "Boyd4",
-    "birthdate" : "03/12/1984",
-    "medications" : [ "aznol:350mg", "hydrapermazol:100mg" ],
-    "allergies" : [ "nillacilan" ]
   } ]
 }

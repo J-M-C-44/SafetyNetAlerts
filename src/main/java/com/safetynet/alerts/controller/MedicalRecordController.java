@@ -19,7 +19,6 @@ import java.util.Optional;
 @Validated
 @RestController
 @RequestMapping("/medicalRecord")
-// TODO
 public class MedicalRecordController {
     private static final Logger logger = LogManager.getLogger(com.safetynet.alerts.controller.MedicalRecordController.class);
     private final IMedicalRecordService medicalRecordService;

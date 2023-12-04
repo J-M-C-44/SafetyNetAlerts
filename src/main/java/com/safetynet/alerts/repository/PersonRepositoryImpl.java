@@ -1,6 +1,5 @@
 package com.safetynet.alerts.repository;
 
-import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.JsonDataBaseService;
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class PersonRepositoryImpl implements IPersonRepository {
@@ -31,6 +29,22 @@ public class PersonRepositoryImpl implements IPersonRepository {
         }
         logger.debug("    repo - findByFirstNameAndLastName not found for firstname = {}, lastname = {}", firstname, lastname);
         return Optional.empty();
+    }
+
+    @Override
+    public List<Person> findByAddress(String address) {
+        logger.debug("    repo - findByAddress : address = {}", address);
+
+        List<Person> persons = jsonDataBaseService.getPersons()
+                .stream()
+                .filter(person -> person.getAddress().equals(address))
+                .toList();
+        if (persons.isEmpty()) {
+            logger.debug("    repo - findByAddress not found for address = {}", address);
+        } else {
+            logger.debug("    repo - findByAddress OK for address = {} -> {} found" , address, persons.size());
+        }
+        return persons;
     }
 
     @Override
@@ -73,7 +87,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
 //                .map(Person -> Person.getEmail())
                 .map(Person::getEmail)
                 .distinct()
-                .collect(Collectors.toList());
+                .toList();
 
         if (emailsForCity.isEmpty()) {
             logger.debug("    repo - findEmailsBycity not found for city = {}", city);
