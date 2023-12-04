@@ -38,4 +38,12 @@ public class PersonsCoveredByStationDTO {
         this.childrenCount = childrenCount;
     }
 
+    @Override
+    public String toString() {
+        return "PersonsCoveredByStationDTO{" +
+                "persons=" + persons +
+                ", adultsCount=" + adultsCount +
+                ", childrenCount=" + childrenCount +
+                '}';
+    }
 }

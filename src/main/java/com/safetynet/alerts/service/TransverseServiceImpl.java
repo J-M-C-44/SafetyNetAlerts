@@ -42,7 +42,7 @@ public class TransverseServiceImpl implements ITransverseService {
             logger.debug("  serv - getPersonsCoveredByStation KO - firestation not found: station = {}", stationNumber);
 //            throw new NotFoundException("firestation not found");
         } else {
-            logger.debug("  serv - getPersonsCoveredByStation -2- going to found personns with matching addresses for station = {}", stationNumber);
+            logger.debug("  serv - getPersonsCoveredByStation -2- going to found persons with matching addresses for station = {}", stationNumber);
 
             for (Firestation firestation : firestations) {
                 List<Person> persons = personRepository.findByAddress(firestation.getAddress());
@@ -90,4 +90,24 @@ public class TransverseServiceImpl implements ITransverseService {
         }
         return childrenAndHomeMembers;
     }
+
+    @Override
+    public List<Person> getPersonsByStation(String stationNumber) {
+        List<Person> personsByStation = new ArrayList<>();
+
+        logger.debug("  serv - getPersonsByStation -1- going to find Addresses covered by station = {}", stationNumber);
+        List<Firestation> firestations = firestationRepository.findByStation(stationNumber);
+
+        if (firestations.isEmpty()) {
+            logger.debug("  serv - getPersonsByStation KO - firestation not found: station = {}", stationNumber);
+//            throw new NotFoundException("firestation not found");
+        } else {
+            logger.debug("  serv - getPersonsByStation -2- going to found persons with matching addresses for station = {}", stationNumber);
+            for (Firestation firestation : firestations) {
+                personsByStation.addAll(personRepository.findByAddress(firestation.getAddress()));
+            }
+        }
+        return personsByStation;
+    }
+
 }

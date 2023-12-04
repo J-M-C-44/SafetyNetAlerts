@@ -48,4 +48,14 @@ public class ChildAlertDTO {
     public void setHomeMembers(List<Person> homeMembers) {
         this.homeMembers = homeMembers;
     }
+
+    @Override
+    public String toString() {
+        return "ChildAlertDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", homeMembers=" + homeMembers +
+                '}';
+    }
 }

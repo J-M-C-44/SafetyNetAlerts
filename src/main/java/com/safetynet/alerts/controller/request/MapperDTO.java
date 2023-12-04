@@ -103,4 +103,12 @@ public class MapperDTO {
                 .toList();
 
     }
+
+    public PhonesAlertDTO personsToPhonesAlertDTO(List<Person> personsByStation) {
+
+        return new PhonesAlertDTO(personsByStation.stream()
+                .map(p -> p.getPhone())
+                .distinct()
+                .toList());
+    }
 }
