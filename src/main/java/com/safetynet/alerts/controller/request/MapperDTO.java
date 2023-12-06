@@ -6,6 +6,8 @@ import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class MapperDTO {
@@ -112,7 +114,7 @@ public class MapperDTO {
                 .toList());
     }
 
-    public List<FireDTO> PersonAndMedicalRecordwithAgeToFireDTO(List<PersonAndMedicalRecordwithAge> personsForFire) {
+    public List<FireDTO> PersonAndMedicalRecordwithAgeToFireDTO(List<PersonAndMedicalRecordwithAgeAndStation> personsForFire) {
         return personsForFire.stream()
                 .map(p -> new FireDTO(p.getPerson().getFirstName(),
                                       p.getPerson().getLastName(),
@@ -122,5 +124,38 @@ public class MapperDTO {
                                       p.getMedicalRecord().getAllergies(),
                                       p.getStation()))
                 .toList();
+    }
+
+//    public FloodDTO PersonAndMedicalRecordwithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
+//
+//        FloodDTO floodDTO = new FloodDTO();
+//        for (Map.Entry entry : personsForFlood.entrySet()) {
+//            List<PersonFloodDTO> personFloodDTOList = ((List<PersonAndMedicalRecordwithAge>) entry.getValue()).stream()
+//                    .map(p -> new PersonFloodDTO(p.getPerson().getFirstName(),
+//                            p.getPerson().getLastName(),
+//                            p.getPerson().getPhone(),
+//                            p.getAge(),
+//                            p.getMedicalRecord().getMedications(),
+//                            p.getMedicalRecord().getAllergies()))
+//                    .toList();
+//            floodDTO.putMapFloodDTO(entry.getKey().toString(),personFloodDTOList);
+//        }
+//        return floodDTO;
+//    }
+    public Map<String, List<PersonFloodDTO>> PersonAndMedicalRecordwithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
+
+        Map<String, List<PersonFloodDTO>> floodDTO = new HashMap<>();
+        for (Map.Entry entry : personsForFlood.entrySet()) {
+            List<PersonFloodDTO> personFloodDTOList = ((List<PersonAndMedicalRecordwithAge>) entry.getValue()).stream()
+                    .map(p -> new PersonFloodDTO(p.getPerson().getFirstName(),
+                            p.getPerson().getLastName(),
+                            p.getPerson().getPhone(),
+                            p.getAge(),
+                            p.getMedicalRecord().getMedications(),
+                            p.getMedicalRecord().getAllergies()))
+                    .toList();
+            floodDTO.put(entry.getKey().toString(),personFloodDTOList);
+        }
+        return floodDTO;
     }
 }

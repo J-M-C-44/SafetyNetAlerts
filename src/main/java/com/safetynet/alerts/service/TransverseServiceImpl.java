@@ -2,6 +2,7 @@ package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.controller.request.ChildAndHomeMembers;
 import com.safetynet.alerts.controller.request.PersonAndMedicalRecordwithAge;
+import com.safetynet.alerts.controller.request.PersonAndMedicalRecordwithAgeAndStation;
 import com.safetynet.alerts.controller.request.PersonsCoveredByStation;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -14,9 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TransverseServiceImpl implements ITransverseService {
@@ -112,9 +111,9 @@ public class TransverseServiceImpl implements ITransverseService {
     }
 
 //    @Override
-//    public List<PersonAndMedicalRecordwithAge> getPersonsForFirebyAddress(String address) {
+//    public List<PersonAndMedicalRecordwithAgeAndStation> getPersonsForFirebyAddress(String address) {
 //
-//        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+//        List<PersonAndMedicalRecordwithAgeAndStation> personsAndMedicalRecordwithAge = new ArrayList<>();
 //        logger.debug("  serv - getPersonsForFirebyAddress -1- going to found persons for address = {}", address);
 //        //TODO: voir avec mentor pour la redéclaration ou pas
 //        List<Person> persons = personRepository.findByAddress(address);
@@ -124,7 +123,7 @@ public class TransverseServiceImpl implements ITransverseService {
 //            logger.debug("  serv - getPersonsForFirebyAddress -2- going to found corresponding medical records and station for persons= {}", persons);
 //            for (Person person : persons) {
 //                //TODO: vérifier les cas d'exception (non trouvés)
-//                PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person);
+//                PersonAndMedicalRecordwithAgeAndStation personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAgeAndStation(person);
 //
 //                Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 //                if (medicalRecord.isPresent()) {
@@ -147,9 +146,9 @@ public class TransverseServiceImpl implements ITransverseService {
 //    }
 
     @Override
-    public List<PersonAndMedicalRecordwithAge> getPersonsForFirebyAddress(String address) {
+    public List<PersonAndMedicalRecordwithAgeAndStation> getPersonsForFirebyAddress(String address) {
 
-        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+        List<PersonAndMedicalRecordwithAgeAndStation> personsAndMedicalRecordwithAge = new ArrayList<>();
         logger.debug("  serv - getPersonsForFirebyAddress -1- going to found persons for address = {}", address);
         //TODO: voir avec mentor pour la redéclaration ou pas
         List<Person> persons = personRepository.findByAddress(address);
@@ -161,19 +160,56 @@ public class TransverseServiceImpl implements ITransverseService {
             String station = firestation.isPresent() ? (firestation.get().getStation()) : "";
             logger.debug("  serv - getPersonsForFirebyAddress -3- going to found corresponding medical records for persons= {}", persons);
             for (Person person : persons) {
-                //TODO: vérifier les cas d'exception (non trouvés)
-                PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person,station);
+                PersonAndMedicalRecordwithAgeAndStation personAndMedicalRecordwithAgeAndStation = new PersonAndMedicalRecordwithAgeAndStation(person,station);
                 Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 if (medicalRecord.isPresent()) {
-                    personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
-                    personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+                    personAndMedicalRecordwithAgeAndStation.setMedicalRecord(medicalRecord.get());
+                    personAndMedicalRecordwithAgeAndStation.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
                 } else {
                     logger.debug("  serv - getPersonsForFirebyAddress -3- KO - no medicalRecords for = {}", person);
                 }
-                personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+                personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAgeAndStation);
             }
         }
         return personsAndMedicalRecordwithAge;
+    }
+
+    @Override
+    public Map<String, List<PersonAndMedicalRecordwithAge>> getPersonsForFloodByStations(List<String> stationNumbers) {
+        //TODO voir avec mentor si on peut appeler une méthode d'un service dans un même service
+        //stationNumbers.forEach(station -> getPersonsByStation(station));
+        logger.debug("  serv - getPersonsForFloodByStations -1- going to found firestation addresses for stations = {}", stationNumbers);
+        Map<String, List<PersonAndMedicalRecordwithAge>> personFloodMap = new HashMap<>();
+
+        List<String> addresses = new ArrayList<String>();
+        stationNumbers.forEach((stationNumber -> addresses.addAll(firestationRepository.findByStation(stationNumber).stream()
+                .map(Firestation::getAddress)
+                .toList())));
+
+        if (addresses.isEmpty()) {
+            logger.debug("  serv - getPersonsForFloodByStations -1- KO - firestation addresses not found for stations = {}", stationNumbers);
+        } else {
+            logger.debug("  serv - getPersonsForFloodByStations -2- going to found persons with matching addresses for stations = {}", stationNumbers);
+            for (String address : addresses) {
+                List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+                List<Person> persons = personRepository.findByAddress(address);
+                logger.debug("  serv - getPersonsForFloodByStations -3- going to found corresponding medical records for persons= {}", persons);
+                for (Person person : persons) {
+                    PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person);
+                    Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                    if (medicalRecord.isPresent()) {
+                        personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
+                        personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+                    } else {
+                        logger.debug("  serv - getPersonsForFloodByStations -3- KO - no medicalRecords for = {}", person);
+                    }
+                    personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+                }
+                personFloodMap.put(address,personsAndMedicalRecordwithAge);
+                }
+            }
+
+        return personFloodMap;
     }
 
 }

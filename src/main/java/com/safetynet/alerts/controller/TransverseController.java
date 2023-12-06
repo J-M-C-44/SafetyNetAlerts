@@ -5,6 +5,7 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 import com.safetynet.alerts.service.ITransverseService;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @Validated
 @RestController
@@ -74,14 +76,53 @@ public class TransverseController {
     }
 
     @GetMapping("/fire")
-    public ResponseEntity<List<FireDTO>> getPersonsForFirebyAddress(@NotBlank @RequestParam final String address ) {
+    public ResponseEntity<List<FireDTO>> getPersonsForFirebByAddress(@NotBlank @RequestParam final String address ) {
         logger.info("ctlr - received request - GET getPersonsFirebyAddress: stationNumber = {}", address);
 
-        List<PersonAndMedicalRecordwithAge> personsForFire = transverseService.getPersonsForFirebyAddress(address);
+        List<PersonAndMedicalRecordwithAgeAndStation> personsForFire = transverseService.getPersonsForFirebyAddress(address);
         ResponseEntity<List<FireDTO>> response = personsForFire.isEmpty()
                 ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFireDTO(personsForFire), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPersonsFirebyAddress : {}", response);
+        return response;
+
+    }
+
+//    @GetMapping("/flood/firestations")
+//    public ResponseEntity<List<FloodDTO>> getPersonsForFloodByStations(@NotBlank @RequestParam final List<String> stationNumbers ) {
+//        logger.info("ctlr - received request - GET getPersonsForFloodByStations: stationNumber = {}", stationNumbers);
+//
+//        List<PersonAndMedicalRecordwithAgeAndStation> personsForFire = transverseService.getPersonsForFloodByStations(stationNumbers);
+//        ResponseEntity<List<FireDTO>> response = personsForFire.isEmpty()
+//                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+//                : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFireDTO(personsForFire), HttpStatus.OK);
+//        logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
+//        return response;
+//
+//    }
+
+//    @GetMapping("/flood/stations")
+//    public ResponseEntity<FloodDTO> getPersonsForFloodByStations(@NotNull @RequestParam("stations") final List<String> stationNumbers ) {
+//        logger.info("ctlr - received request - GET getPersonsForFloodByStations: stationNumber = {}", stationNumbers);
+//
+//        Map<String,List<PersonAndMedicalRecordwithAge>> personsForFlood = transverseService.getPersonsForFloodByStations(stationNumbers);
+//        ResponseEntity<FloodDTO> response = personsForFlood.isEmpty()
+//                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+//                : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFloodDTO(personsForFlood), HttpStatus.OK);
+//        logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
+//        return response;
+//
+//    }
+
+    @GetMapping("/flood/stations")
+    public ResponseEntity<Map<String, List<PersonFloodDTO>>> getPersonsForFloodByStations(@NotNull @RequestParam("stations") final List<String> stationNumbers ) {
+        logger.info("ctlr - received request - GET getPersonsForFloodByStations: stationNumber = {}", stationNumbers);
+
+        Map<String,List<PersonAndMedicalRecordwithAge>> personsForFlood = transverseService.getPersonsForFloodByStations(stationNumbers);
+        ResponseEntity<Map<String, List<PersonFloodDTO>>> response = personsForFlood.isEmpty()
+                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFloodDTO(personsForFlood), HttpStatus.OK);
+        logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
         return response;
 
     }
