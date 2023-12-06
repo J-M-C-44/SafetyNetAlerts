@@ -48,17 +48,17 @@ public class FirestationRepositoryImpl implements IFirestationRepository{
     @Override
     public List<Firestation> findByStation(String station) {
         logger.debug("    repo - findByAddress : station = {}", station);
-        List<Firestation> foundedFirestations = jsonDataBaseService.getFirestations()
+        List<Firestation> foundFirestations = jsonDataBaseService.getFirestations()
                                                 .stream()
                                                 .filter(firestation -> firestation.getStation().equals(station))
                                                 .toList();
 
-        if (foundedFirestations.isEmpty()) {
+        if (foundFirestations.isEmpty()) {
             logger.debug("    repo - findByAddress not found for station = {}", station);
         } else {
-            logger.debug("    repo - findByStation OK for station = {} -> {} found" , station, foundedFirestations.size());
+            logger.debug("    repo - findByStation OK for station = {} -> {} found" , station, foundFirestations.size());
         }
-        return foundedFirestations;
+        return foundFirestations;
 
     }
 

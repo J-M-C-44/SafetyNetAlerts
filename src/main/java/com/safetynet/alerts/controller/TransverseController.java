@@ -73,6 +73,18 @@ public class TransverseController {
 
     }
 
+    @GetMapping("/fire")
+    public ResponseEntity<List<FireDTO>> getPersonsForFirebyAddress(@NotBlank @RequestParam final String address ) {
+        logger.info("ctlr - received request - GET getPersonsFirebyAddress: stationNumber = {}", address);
+
+        List<PersonAndMedicalRecordwithAge> personsForFire = transverseService.getPersonsForFirebyAddress(address);
+        ResponseEntity<List<FireDTO>> response = personsForFire.isEmpty()
+                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFireDTO(personsForFire), HttpStatus.OK);
+        logger.info("ctlr - response request - GET getPersonsFirebyAddress : {}", response);
+        return response;
+
+    }
 
     @GetMapping("/communityEmail")
     public ResponseEntity<CommunityEmailsDTO> getCommunityEmail(@NotBlank @RequestParam final String city) {

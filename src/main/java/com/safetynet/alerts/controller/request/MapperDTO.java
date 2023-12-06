@@ -111,4 +111,16 @@ public class MapperDTO {
                 .distinct()
                 .toList());
     }
+
+    public List<FireDTO> PersonAndMedicalRecordwithAgeToFireDTO(List<PersonAndMedicalRecordwithAge> personsForFire) {
+        return personsForFire.stream()
+                .map(p -> new FireDTO(p.getPerson().getFirstName(),
+                                      p.getPerson().getLastName(),
+                                      p.getPerson().getPhone(),
+                                      p.getAge(),
+                                      p.getMedicalRecord().getMedications(),
+                                      p.getMedicalRecord().getAllergies(),
+                                      p.getStation()))
+                .toList();
+    }
 }

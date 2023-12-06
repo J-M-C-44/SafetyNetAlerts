@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.controller.request.ChildAndHomeMembers;
+import com.safetynet.alerts.controller.request.PersonAndMedicalRecordwithAge;
 import com.safetynet.alerts.controller.request.PersonsCoveredByStation;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -76,15 +77,15 @@ public class TransverseServiceImpl implements ITransverseService {
             for (Person person : persons) {
                 Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 if (medicalRecord.isPresent() && AgeUtil.isChild(medicalRecord.get().getBirthdate()) ) {
-                    MedicalRecord foundedMedicalRecord = medicalRecord.get();
-                    Integer childrenAge = AgeUtil.calculateAgeFromDate(foundedMedicalRecord.getBirthdate());
+                    MedicalRecord foundMedicalRecord = medicalRecord.get();
+                    Integer childrenAge = AgeUtil.calculateAgeFromDate(foundMedicalRecord.getBirthdate());
                     List<Person> otherHomeMembers = persons.stream()
                                                             .filter(p -> !(p.getFirstName().equals(person.getFirstName()) &&
                                                                           p.getLastName().equals(person.getLastName())))
                                                             .toList();
-                    childrenAndHomeMembers.add(new ChildAndHomeMembers(foundedMedicalRecord, childrenAge, otherHomeMembers));
+                    childrenAndHomeMembers.add(new ChildAndHomeMembers(foundMedicalRecord, childrenAge, otherHomeMembers));
                 } else {
-                    logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- KO - no children found in medicalRecords for = {}", persons);
+                    logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- KO - no children found in medicalRecords for = {}", person);
                 }
             }
         }
@@ -108,6 +109,71 @@ public class TransverseServiceImpl implements ITransverseService {
             }
         }
         return personsByStation;
+    }
+
+//    @Override
+//    public List<PersonAndMedicalRecordwithAge> getPersonsForFirebyAddress(String address) {
+//
+//        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+//        logger.debug("  serv - getPersonsForFirebyAddress -1- going to found persons for address = {}", address);
+//        //TODO: voir avec mentor pour la redéclaration ou pas
+//        List<Person> persons = personRepository.findByAddress(address);
+//        if (persons.isEmpty()) {
+//            logger.debug("  serv - getPersonsForFirebyAddress -1- KO - person not found: for address = {}", address);
+//        } else {
+//            logger.debug("  serv - getPersonsForFirebyAddress -2- going to found corresponding medical records and station for persons= {}", persons);
+//            for (Person person : persons) {
+//                //TODO: vérifier les cas d'exception (non trouvés)
+//                PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person);
+//
+//                Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+//                if (medicalRecord.isPresent()) {
+//                    personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
+//                    personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+//                } else {
+//                    logger.debug("  serv - getPersonsForFirebyAddress -2- KO - no medicalRecords for = {}", person);
+//                }
+//
+//                Optional<Firestation> firestation = firestationRepository.findByAddress(address);
+//                if (firestation.isPresent()) {
+//                    personAndMedicalRecordwithAge.setStation(firestation.get().getStation());
+//                } else {
+//                    logger.debug("  serv - getPersonsForFirebyAddress -2- KO - firestation not found for address = {}", address);
+//                }
+//                personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+//            }
+//        }
+//        return personsAndMedicalRecordwithAge;
+//    }
+
+    @Override
+    public List<PersonAndMedicalRecordwithAge> getPersonsForFirebyAddress(String address) {
+
+        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+        logger.debug("  serv - getPersonsForFirebyAddress -1- going to found persons for address = {}", address);
+        //TODO: voir avec mentor pour la redéclaration ou pas
+        List<Person> persons = personRepository.findByAddress(address);
+        if (persons.isEmpty()) {
+            logger.debug("  serv - getPersonsForFirebyAddress -1- KO - person not found: for address = {}", address);
+        } else {
+            logger.debug("  serv - getPersonsForFirebyAddress -2- going to found corresponding medical records and station for persons= {}", persons);
+            Optional<Firestation> firestation = firestationRepository.findByAddress(address);
+            String station = firestation.isPresent() ? (firestation.get().getStation()) : "";
+            logger.debug("  serv - getPersonsForFirebyAddress -3- going to found corresponding medical records for persons= {}", persons);
+            for (Person person : persons) {
+                //TODO: vérifier les cas d'exception (non trouvés)
+                PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person,station);
+                Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                if (medicalRecord.isPresent()) {
+                    personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
+                    personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+                } else {
+                    logger.debug("  serv - getPersonsForFirebyAddress -3- KO - no medicalRecords for = {}", person);
+                }
+                personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+            }
+        }
+        return personsAndMedicalRecordwithAge;
     }
 
 }
