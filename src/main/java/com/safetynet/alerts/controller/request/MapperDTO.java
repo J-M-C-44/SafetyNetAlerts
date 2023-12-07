@@ -158,4 +158,15 @@ public class MapperDTO {
         }
         return floodDTO;
     }
+
+    public List<PersonInfoDTO> personAndMedicalRecordwithAgeToPersonsInfoDTO(List<PersonAndMedicalRecordwithAge> personsInfo) {
+        return personsInfo.stream()
+                .map(p -> new PersonInfoDTO(p.getPerson().getFirstName(),
+                        p.getPerson().getLastName(),
+                        p.getPerson().getEmail(),
+                        p.getAge(),
+                        p.getMedicalRecord().getMedications(),
+                        p.getMedicalRecord().getAllergies()))
+                .toList();
+    }
 }

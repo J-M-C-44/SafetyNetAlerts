@@ -48,6 +48,23 @@ public class PersonRepositoryImpl implements IPersonRepository {
     }
 
     @Override
+    public List<Person> findAllByFirstNameAndLastName(String firstName, String lastName) {
+        logger.debug("    repo - findAllByFirstNameAndLastName : firstname = {}, lastname = {}", firstName, lastName);
+
+        List<Person> persons = jsonDataBaseService.getPersons()
+                .stream()
+                .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
+                .toList();
+
+        if (persons.isEmpty()) {
+            logger.debug("    repo - findAllByFirstNameAndLastName not found for firstname = {}, lastname = {}", firstName, lastName);
+        } else {
+            logger.debug("    repo - findAllByFirstNameAndLastName OK for: firstname = {}, lastname = {}", firstName, lastName);
+        }
+        return persons;
+    }
+
+    @Override
     public void delete(Person personToDelete) {
         logger.debug("    repo -  delete  person : {}", personToDelete);
         List<Person> persons = jsonDataBaseService.getPersons();

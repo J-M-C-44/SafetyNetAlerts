@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO : à virer - car ajoute un champ mapFoodDTO au JSO dassn la réponse
+//TODO : à virer - car ajoute un champ mapFoodDTO au JSON dans la réponse
 public class FloodDTO {
     private Map<String, List<PersonFloodDTO>> mapFloodDTO;
 

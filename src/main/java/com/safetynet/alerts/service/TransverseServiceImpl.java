@@ -212,4 +212,24 @@ public class TransverseServiceImpl implements ITransverseService {
         return personFloodMap;
     }
 
+    @Override
+    public List<PersonAndMedicalRecordwithAge> getPersonInfobyName(String firstName, String lastName) {
+
+        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+        logger.debug("  serv - getPersonInfobyName - going to find persons with firstname = {} and lastname = {}", firstName, lastName);
+        List<Person> persons = personRepository.findAllByFirstNameAndLastName(firstName, lastName);
+        for (Person person : persons) {
+            PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person);
+            Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+            if (medicalRecord.isPresent()) {
+                personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
+                personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+            } else {
+                logger.debug("  serv - getPersonsForFloodByStations -3- KO - no medicalRecords for = {}", person);
+            }
+            personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+        }
+        return personsAndMedicalRecordwithAge;
+    }
+
 }

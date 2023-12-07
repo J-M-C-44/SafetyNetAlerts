@@ -88,18 +88,6 @@ public class TransverseController {
 
     }
 
-//    @GetMapping("/flood/firestations")
-//    public ResponseEntity<List<FloodDTO>> getPersonsForFloodByStations(@NotBlank @RequestParam final List<String> stationNumbers ) {
-//        logger.info("ctlr - received request - GET getPersonsForFloodByStations: stationNumber = {}", stationNumbers);
-//
-//        List<PersonAndMedicalRecordwithAgeAndStation> personsForFire = transverseService.getPersonsForFloodByStations(stationNumbers);
-//        ResponseEntity<List<FireDTO>> response = personsForFire.isEmpty()
-//                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
-//                : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFireDTO(personsForFire), HttpStatus.OK);
-//        logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
-//        return response;
-//
-//    }
 
 //    @GetMapping("/flood/stations")
 //    public ResponseEntity<FloodDTO> getPersonsForFloodByStations(@NotNull @RequestParam("stations") final List<String> stationNumbers ) {
@@ -123,6 +111,20 @@ public class TransverseController {
                 ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.PersonAndMedicalRecordwithAgeToFloodDTO(personsForFlood), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
+        return response;
+
+    }
+
+    @GetMapping("/personInfo")
+    public ResponseEntity<List<PersonInfoDTO>> getpPersonInfobyName(@NotBlank @RequestParam final String firstName,
+                                                              @NotBlank @RequestParam final String lastName ) {
+        logger.info("ctlr - received request - GET getpPersonInfobyName: firstName = {}, lastName ", firstName, lastName);
+
+        List<PersonAndMedicalRecordwithAge> personsInfo = transverseService.getPersonInfobyName(firstName, lastName);
+        ResponseEntity<List<PersonInfoDTO>> response = personsInfo.isEmpty()
+                ? new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(mapperDTO.personAndMedicalRecordwithAgeToPersonsInfoDTO(personsInfo), HttpStatus.OK);
+        logger.info("ctlr - response request - GET getpPersonInfobyName : {}", response);
         return response;
 
     }
