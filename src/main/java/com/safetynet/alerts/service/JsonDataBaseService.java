@@ -41,7 +41,7 @@ public class JsonDataBaseService implements CommandLineRunner {
             logger.debug("db - going to Load Database from JSON file : {}", customProperties.getJsonfilepathname());
             this.jsonFile = new File(customProperties.getJsonfilepathname());
             this.dataBase = jsonMapper.readValue(this.jsonFile, JsonDataBase.class);
-            logger.info("Loading jsonDatabase complete");
+            logger.info("Loading jsonDatabase complete. Ready to save people !");
 
         } catch (IOException e) {
             e.printStackTrace();

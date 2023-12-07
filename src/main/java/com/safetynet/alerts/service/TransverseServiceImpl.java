@@ -181,7 +181,7 @@ public class TransverseServiceImpl implements ITransverseService {
         logger.debug("  serv - getPersonsForFloodByStations -1- going to found firestation addresses for stations = {}", stationNumbers);
         Map<String, List<PersonAndMedicalRecordwithAge>> personFloodMap = new HashMap<>();
 
-        List<String> addresses = new ArrayList<String>();
+        List<String> addresses = new ArrayList<>();
         stationNumbers.forEach((stationNumber -> addresses.addAll(firestationRepository.findByStation(stationNumber).stream()
                 .map(Firestation::getAddress)
                 .toList())));
