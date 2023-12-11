@@ -4,24 +4,24 @@ import jakarta.validation.constraints.*;
 
 public class PersonDTO {
     @NotBlank
-    private String firstName;
+    private final String firstName;
     @NotBlank
-    private String lastName;
+    private final String lastName;
     @NotBlank
-    private String address;
+    private final String address;
     @NotBlank
-    private String city;
+    private final String city;
 
     @NotBlank
     @Pattern(regexp = "[0-9]{1,5}")
-    private String zip;
+    private final String zip;
     @NotBlank
     @Pattern(regexp = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$")
-    private String phone;
+    private final String phone;
 
     @NotBlank
     @Email
-    private String email;
+    private final String email;
 
     public PersonDTO(String firstName, String lastName, String address, String city, String zip, String phone, String email) {
         this.firstName = firstName;

@@ -30,23 +30,12 @@ public class PersonsCoveredByStation {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
-
     public Integer getAdultsCount() {
         return adultsCount;
-    }
-
-    public void setAdultsCount(Integer adultsCount) {
-        this.adultsCount = adultsCount;
     }
 
     public Integer getChildrenCount() {
         return childrenCount;
     }
 
-    public void setChildrenCount(Integer childrenCount) {
-        this.childrenCount = childrenCount;
-    }
 }

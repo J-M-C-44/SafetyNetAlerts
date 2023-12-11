@@ -4,7 +4,7 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class CommunityEmailsDTO {
-    private List<String> emails;
+    private final List<String> emails;
 
     public CommunityEmailsDTO(List<String> emails) {
         this.emails = emails;
@@ -12,10 +12,6 @@ public class CommunityEmailsDTO {
 
     public List<String> getEmails() {
         return emails;
-    }
-
-    public void setEmails(List<String> emails) {
-        this.emails = emails;
     }
 
     @Override

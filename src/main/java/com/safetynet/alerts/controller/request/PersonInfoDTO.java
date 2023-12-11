@@ -3,12 +3,12 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class PersonInfoDTO {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Integer age;
-    private List<String> medications;
-    private List<String> allergies;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final Integer age;
+    private final List<String> medications;
+    private final List<String> allergies;
 
     public PersonInfoDTO(String firstName, String lastName, String email, Integer age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;

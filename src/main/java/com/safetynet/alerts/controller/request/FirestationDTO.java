@@ -5,10 +5,10 @@ import jakarta.validation.constraints.Pattern;
 
 public class FirestationDTO {
     @NotBlank
-    private String address;
+    private final String address;
     @NotBlank
     @Pattern(regexp = "[0-9]{1,999999999}")
-    private String station;
+    private final String station;
 
     public FirestationDTO(String address, String station) {
         this.address = address;

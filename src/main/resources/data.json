@@ -183,22 +183,6 @@
     "zip" : "97451",
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
-  }, {
-    "firstName" : "John",
-    "lastName" : "Boyd3",
-    "address" : "1509 Culver St",
-    "city" : "Culver",
-    "zip" : "98887",
-    "phone" : "841-874-6512",
-    "email" : "jaboyd3@email.com"
-  }, {
-    "firstName" : "John",
-    "lastName" : "Boyd4",
-    "address" : "1509 Culver St",
-    "city" : "Culver",
-    "zip" : "99999",
-    "phone" : "841-874-6552",
-    "email" : "toto@gmail.com"
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",
@@ -239,12 +223,6 @@
   }, {
     "address" : "951 LoneTree Rd",
     "station" : "2"
-  }, {
-    "address" : "paris 2",
-    "station" : "123456"
-  }, {
-    "address" : "paris 2",
-    "station" : "12345"
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -333,7 +311,7 @@
   }, {
     "firstName" : "Reginold",
     "lastName" : "Walker",
-    "birthdate" : "08/06/1981",
+    "birthdate" : "08/30/1981",
     "medications" : [ "thradox:700mg" ],
     "allergies" : [ "illisoxian" ]
   }, {
