@@ -107,46 +107,31 @@ public class MapperDTO {
     }
 
     public PhonesAlertDTO personsToPhonesAlertDTO(List<Person> personsByStation) {
-
         return new PhonesAlertDTO(personsByStation.stream()
-                .map(p -> p.getPhone())
+                .map(Person::getPhone)
                 .distinct()
                 .toList());
     }
 
-    public List<FireDTO> PersonAndMedicalRecordwithAgeToFireDTO(List<PersonAndMedicalRecordwithAgeAndStation> personsForFire) {
-        return personsForFire.stream()
-                .map(p -> new FireDTO(p.getPerson().getFirstName(),
-                                      p.getPerson().getLastName(),
-                                      p.getPerson().getPhone(),
-                                      p.getAge(),
-                                      p.getMedicalRecord().getMedications(),
-                                      p.getMedicalRecord().getAllergies(),
-                                      p.getStation()))
-                .toList();
+    public FireDTO stationAndCoveredPersonAndMedicalRecordwithAgeToFireDTO(StationAndCoveredPersonsAndMedicalRecordwithAge personsForFire) {
+        return new FireDTO(
+                personsForFire.getStation(),
+                personsForFire.getPersonsAndMedicalRecordwithAge().stream()
+                        .map(p -> new PersonForFireDTO(p.getPerson().getFirstName(),
+                                                       p.getPerson().getLastName(),
+                                                       p.getPerson().getPhone(),
+                                                       p.getAge(),
+                                                       p.getMedicalRecord().getMedications(),
+                                                       p.getMedicalRecord().getAllergies()))
+                        .toList()
+                );
     }
 
-//    public FloodDTO PersonAndMedicalRecordwithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
-//
-//        FloodDTO floodDTO = new FloodDTO();
-//        for (Map.Entry entry : personsForFlood.entrySet()) {
-//            List<PersonFloodDTO> personFloodDTOList = ((List<PersonAndMedicalRecordwithAge>) entry.getValue()).stream()
-//                    .map(p -> new PersonFloodDTO(p.getPerson().getFirstName(),
-//                            p.getPerson().getLastName(),
-//                            p.getPerson().getPhone(),
-//                            p.getAge(),
-//                            p.getMedicalRecord().getMedications(),
-//                            p.getMedicalRecord().getAllergies()))
-//                    .toList();
-//            floodDTO.putMapFloodDTO(entry.getKey().toString(),personFloodDTOList);
-//        }
-//        return floodDTO;
-//    }
-    public Map<String, List<PersonFloodDTO>> PersonAndMedicalRecordwithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
+    public Map<String, List<PersonFloodDTO>> personAndMedicalRecordWithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
 
         Map<String, List<PersonFloodDTO>> floodDTO = new HashMap<>();
-        for (Map.Entry entry : personsForFlood.entrySet()) {
-            List<PersonFloodDTO> personFloodDTOList = ((List<PersonAndMedicalRecordwithAge>) entry.getValue()).stream()
+        for (Map.Entry<String, List<PersonAndMedicalRecordwithAge>> entry : personsForFlood.entrySet()) {
+            List<PersonFloodDTO> personFloodDTOList = entry.getValue().stream()
                     .map(p -> new PersonFloodDTO(p.getPerson().getFirstName(),
                             p.getPerson().getLastName(),
                             p.getPerson().getPhone(),
@@ -154,12 +139,12 @@ public class MapperDTO {
                             p.getMedicalRecord().getMedications(),
                             p.getMedicalRecord().getAllergies()))
                     .toList();
-            floodDTO.put(entry.getKey().toString(),personFloodDTOList);
+            floodDTO.put(entry.getKey(),personFloodDTOList);
         }
         return floodDTO;
     }
 
-    public List<PersonInfoDTO> personAndMedicalRecordwithAgeToPersonsInfoDTO(List<PersonAndMedicalRecordwithAge> personsInfo) {
+    public List<PersonInfoDTO> personAndMedicalRecordWithAgeToPersonsInfoDTO(List<PersonAndMedicalRecordwithAge> personsInfo) {
         return personsInfo.stream()
                 .map(p -> new PersonInfoDTO(p.getPerson().getFirstName(),
                         p.getPerson().getLastName(),

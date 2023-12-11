@@ -24,19 +24,6 @@ public class FirestationController {
         this.firestationService = firestationService;
         this.mapperDTO = mapperDTO;
     }
-    //TODO: à voir si je garde ou pas -> pose pb sur "mauvais" endpoint firestation car doublon
-//    @GetMapping("")
-//    public ResponseEntity<FirestationDTO> getFirestationByStation(@NotBlank @RequestParam final String address,
-//                                                                  @NotBlank @RequestParam final String station ) {
-//
-//        logger.info("ctlr - received request - GET Firestation: address = {}, station = {}",  address, station);
-//        Optional<Firestation> firestation = firestationService.getFirestation(address, station);
-//        ResponseEntity<FirestationDTO> response = firestation.isPresent()
-//                ? new ResponseEntity<>(mapperDTO.firestationToFirestationDTO(firestation.get()), HttpStatus.OK)
-//                : new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-//        logger.info("ctlr - response request - GET Firestation : {}", response);
-//        return response;
-//    }
 
     // ajouter une firestation
     @PostMapping("")

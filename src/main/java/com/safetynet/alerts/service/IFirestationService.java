@@ -2,11 +2,9 @@ package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.model.Firestation;
 
-import java.util.Optional;
+//import java.util.Optional;
 
 public interface IFirestationService {
-
-    Optional<Firestation> getFirestation(String address, String station);
 
     Firestation addFirestation(Firestation firestationToAdd);
 

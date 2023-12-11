@@ -18,6 +18,9 @@ public final class AgeUtil {
     }
 
     public static Boolean isChild(String birthdate){
+       if (birthdate == null || birthdate.isEmpty()) {
+           return false;
+       }
         return (calculateAgeFromDate(birthdate) <  MAJORITY_AGE);
     }
 }

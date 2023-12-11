@@ -8,11 +8,6 @@ public class PersonAndMedicalRecordwithAge {
     private MedicalRecord medicalRecord;
     private Integer age;
 
-    public PersonAndMedicalRecordwithAge(Person person, MedicalRecord medicalRecord, Integer age) {
-        this.person = person;
-        this.medicalRecord = medicalRecord;
-        this.age = age;
-    }
     public PersonAndMedicalRecordwithAge(Person person) {
         this.person = person;
         this.medicalRecord = new MedicalRecord();

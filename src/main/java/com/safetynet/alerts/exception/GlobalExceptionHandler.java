@@ -23,12 +23,9 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Object> handleValidArgException(HttpMessageNotReadableException exception, HttpServletRequest request)  {
-//        exception.printStackTrace();
+    public ResponseEntity<Object> handleValidArgException(HttpServletRequest request)  {
         ResponseEntity<Object> response = new ResponseEntity<>("Invalid JSON",HttpStatus.BAD_REQUEST);
-
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         logger.error("request with invalid JSON : received = {}, response ={}", received, response);
 
         return response;
@@ -43,9 +40,7 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, message);
         });
         ResponseEntity<Object> response = new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
-
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                            + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         logger.error("request with invalid field(s) : received = {}, response ={}", received, response);
 
         return response;
@@ -58,8 +53,7 @@ public class GlobalExceptionHandler {
         String message = "missing parameter : " + exception.getParameterName();
         ResponseEntity<Object> response = new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
 
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                            + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         logger.error("request with missing parameter : received = {}, response ={}", received, response);
 
         return response;
@@ -76,8 +70,7 @@ public class GlobalExceptionHandler {
         });
         ResponseEntity<Object> response = new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
 
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         logger.error("request with invalid variables : received = {}, response ={}", received, response);
 
         return response;
@@ -85,8 +78,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException exception, HttpServletRequest request)  {
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                            + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         ResponseEntity<Object> response =  new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         logger.error("request with NotFoundException : received = {}, response ={}", received, response);
 
@@ -95,8 +87,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<Object> handleAlreadyExistException(AlreadyExistsException exception, HttpServletRequest request)  {
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                            + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         ResponseEntity<Object> response =  new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         logger.error("request with AlreadyExistsException : received = {}, response ={}", received, response);
         return response;
@@ -104,8 +95,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnreachableDatabaseException.class)
     public ResponseEntity<Object> handleValidArgException(UnreachableDatabaseException exception, HttpServletRequest request)  {
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                + request.getQueryString() );
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         ResponseEntity<Object> response =  new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         logger.error("request with DataBaseException : received = {}, response ={}", received, response);
 
@@ -115,13 +105,17 @@ public class GlobalExceptionHandler {
     // pour trapper les autres erreurs non précédemment trappées
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleOtherException(Exception exception, HttpServletRequest request)  {
-        String received = ( "Method: " + request.getMethod() + " - URI: " + request.getRequestURI() + " - queryString: "
-                + request.getQueryString() );
-        //todo : voir comment laisser code http par défaut pour tout ce qui est de type 400
+        String received = formatReceivedRequestInfo( request.getMethod(), request.getRequestURI(), request.getQueryString());
         ResponseEntity<Object> response =  new ResponseEntity<>("unexpected internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
         logger.error("request with other Exception : received = {}, exception = {}", received, exception);
         exception.printStackTrace();
         return response;
     }
+
+    private String formatReceivedRequestInfo(String method, String requestURI, String queryString) {
+        return ( "Method: " + method + " - URI: " + requestURI + " - queryString: "
+                + queryString );
+    }
+
 
 }

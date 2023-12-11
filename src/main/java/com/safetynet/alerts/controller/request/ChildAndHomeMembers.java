@@ -6,9 +6,9 @@ import com.safetynet.alerts.model.Person;
 import java.util.List;
 
 public class ChildAndHomeMembers {
-    private MedicalRecord medicalRecord;
-    private Integer childAge;
-    private List<Person> otherHomeMembers;
+    private final MedicalRecord medicalRecord;
+    private final Integer childAge;
+    private final List<Person> otherHomeMembers;
 
     public ChildAndHomeMembers(MedicalRecord medicalRecord, Integer childAge, List<Person> otherHomeMembers) {
         this.medicalRecord = medicalRecord;

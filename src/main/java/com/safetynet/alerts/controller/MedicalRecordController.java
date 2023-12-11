@@ -37,7 +37,7 @@ public class MedicalRecordController {
         Optional<MedicalRecord> medicalRecord = medicalRecordService.getMedicalRecord(firstName, lastName);
         ResponseEntity<MedicalRecordDTO> response = medicalRecord.isPresent()
                 ? new ResponseEntity<>(mapperDTO.medicalRecordToMedicalRecordDTO(medicalRecord.get()), HttpStatus.OK)
-                : new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         logger.info("ctlr - response request - GET MedicalRecord : {}", response);
         return response;
 

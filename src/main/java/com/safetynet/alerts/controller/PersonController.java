@@ -38,7 +38,7 @@ public class PersonController {
         Optional<Person> person = personService.getPerson(firstName, lastName);
         ResponseEntity<PersonDTO> response = person.isPresent()
             ? new ResponseEntity<>(mapperDTO.personToPersonDTO(person.get()), HttpStatus.OK)
-            : new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            : new ResponseEntity<>(HttpStatus.NO_CONTENT);
         logger.info("ctlr - response request - GET Person : {}", response);
         return response;
 

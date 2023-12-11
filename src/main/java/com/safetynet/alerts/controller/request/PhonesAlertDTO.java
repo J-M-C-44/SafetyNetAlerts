@@ -9,6 +9,10 @@ public class PhonesAlertDTO {
         this.phones = phones;
     }
 
+    public List<String> getPhones() {
+        return phones;
+    }
+
     @Override
     public String toString() {
         return "PhonesAlertDTO{" +
@@ -16,7 +20,4 @@ public class PhonesAlertDTO {
                 '}';
     }
 
-    public List<String> getPhones() {
-        return phones;
-    }
 }

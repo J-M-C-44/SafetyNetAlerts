@@ -15,15 +15,10 @@ public class FirestationServiceImpl implements IFirestationService{
 
     private static final Logger logger = LogManager.getLogger(FirestationServiceImpl.class);
     private final IFirestationRepository firestationRepository;
+    public static final String MESSAGE_FIRESTATION_NOT_FOUND = "firestation not found";
 
     public FirestationServiceImpl(IFirestationRepository firestationRepository) {
         this.firestationRepository = firestationRepository;
-    }
-
-    @Override
-    public Optional<Firestation> getFirestation(String address, String station) {
-        logger.debug("  serv - getFirestationn - going to find firestation : address = {}, station = {}", address, station);
-        return firestationRepository.findByAddressAndStation(address, station);
     }
 
     @Override
@@ -52,7 +47,7 @@ public class FirestationServiceImpl implements IFirestationService{
             return firestationRepository.update(currentFirestation, firestationToUpdate);
         } else {
             logger.debug("  serv - updateFirestation KO - firestation not found: address = {}", firestationToUpdate.getAddress());
-            throw new NotFoundException("firestation not found");
+            throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         }
     }
 
@@ -66,9 +61,8 @@ public class FirestationServiceImpl implements IFirestationService{
             firestationRepository.delete(firestationToDelete);
         } else {
             logger.debug("  serv - deleteFirestation KO - firestation not found: address = {}", address);
-            throw new NotFoundException("firestation not found");
+            throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         }
-
     }
 
     @Override
@@ -77,19 +71,11 @@ public class FirestationServiceImpl implements IFirestationService{
         List<Firestation> firestations = firestationRepository.findByStation(station);
         if (firestations.isEmpty()) {
             logger.debug("  serv - deleteFirestation KO - firestation not found: station = {}", station);
-            throw new NotFoundException("firestation not found");
+            throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         } else {
             logger.debug("  serv - deleteFirestation going to delete firestation : station = {}", station);
-            // methode 1 : boucle for
-            // for (Firestation firestationToDelete : firestations) {
-            //     firestationRepository.delete(firestationToDelete);
-            // }
-            // méthode 2: boucle foreach
-            // firestations.forEach(firestationToDelete -> firestationRepository.delete(firestationToDelete));
-            // méthode 3 : foreach + methode reférence
             firestations.forEach(firestationRepository::delete);
         }
-
     }
 
 }

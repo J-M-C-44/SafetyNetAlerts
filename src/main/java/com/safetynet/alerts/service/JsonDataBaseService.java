@@ -61,7 +61,6 @@ public class JsonDataBaseService implements CommandLineRunner {
         return this.dataBase.getFirestations();
     }
     public List<MedicalRecord> getMedicalRecords() {
-//    public List<MedicalRecord> getMedicalRecords() {
         logger.debug("      db - going to access medicalrecords from Jsondatabase");
         return this.dataBase.getMedicalrecords();
     }
