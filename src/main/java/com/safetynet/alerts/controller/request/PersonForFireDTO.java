@@ -3,12 +3,12 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class PersonForFireDTO {
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private Integer age;
-    private List<String> medications;
-    private List<String> allergies;
+    private final String firstName;
+    private final String lastName;
+    private final String phone;
+    private final Integer age;
+    private final List<String> medications;
+    private final List<String> allergies;
 
     public PersonForFireDTO(String firstName, String lastName, String phone, Integer age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;

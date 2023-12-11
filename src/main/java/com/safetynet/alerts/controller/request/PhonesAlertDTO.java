@@ -3,7 +3,7 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class PhonesAlertDTO {
-    private List<String> phones;
+    private final List<String> phones;
 
     public PhonesAlertDTO(List<String> phones) {
         this.phones = phones;

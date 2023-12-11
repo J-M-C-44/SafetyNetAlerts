@@ -4,7 +4,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
 public class PersonAndMedicalRecordwithAge {
-    private Person person;
+    private final Person person;
     private MedicalRecord medicalRecord;
     private Integer age;
 

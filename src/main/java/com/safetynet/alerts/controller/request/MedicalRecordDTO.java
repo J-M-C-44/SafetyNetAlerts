@@ -10,8 +10,8 @@ public class MedicalRecordDTO {
     private String firstName;
     @NotBlank
     private String lastName;
-    @Pattern(regexp = "^((0[1-9]|1[0-2])/0[1-9]|1[0-9]|2[0-9]|3[0-1])/(19|20)[0-9]{2}$",
-             message = "must have a format like MM/dd/yyyy - ex: 06/16/1977")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])/(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(19|20)[0-9]{2}$",
+             message = "must have a format like MM/dd/yyyy ! - ex: 06/16/1977")
     private String birthdate;
     private List<String> medications;
     private List<String> allergies;

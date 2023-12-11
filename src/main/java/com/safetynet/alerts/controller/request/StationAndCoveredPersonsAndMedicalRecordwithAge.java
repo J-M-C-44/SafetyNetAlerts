@@ -3,8 +3,8 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class StationAndCoveredPersonsAndMedicalRecordwithAge {
-    private String station;
-    private List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge;
+    private final String station;
+    private final List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge;
 
     public StationAndCoveredPersonsAndMedicalRecordwithAge(String station, List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge) {
         this.station = station;

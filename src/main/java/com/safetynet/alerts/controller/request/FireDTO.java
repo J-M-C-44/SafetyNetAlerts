@@ -3,8 +3,8 @@ package com.safetynet.alerts.controller.request;
 import java.util.List;
 
 public class FireDTO {
-    private String station;
-    private List<PersonForFireDTO> persons;
+    private final String station;
+    private final List<PersonForFireDTO> persons;
 
     public FireDTO(String station, List<PersonForFireDTO> persons) {
         this.station = station;
