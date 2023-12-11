@@ -1,6 +1,8 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.controller.request.*;
+import com.safetynet.alerts.controller.request.firestation.FirestationDTO;
+import com.safetynet.alerts.controller.request.firestation.FirestationWithoutAddressDTO;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.service.IFirestationService;
 import jakarta.validation.Valid;

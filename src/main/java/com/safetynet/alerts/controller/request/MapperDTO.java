@@ -1,5 +1,12 @@
 package com.safetynet.alerts.controller.request;
 
+import com.safetynet.alerts.controller.request.firestation.FirestationDTO;
+import com.safetynet.alerts.controller.request.firestation.FirestationWithoutAddressDTO;
+import com.safetynet.alerts.controller.request.medicalrecord.MedicalRecordDTO;
+import com.safetynet.alerts.controller.request.medicalrecord.MedicalRecordWithoutNameDTO;
+import com.safetynet.alerts.controller.request.person.PersonDTO;
+import com.safetynet.alerts.controller.request.person.PersonWithoutNameDTO;
+import com.safetynet.alerts.controller.request.tranverse.*;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;

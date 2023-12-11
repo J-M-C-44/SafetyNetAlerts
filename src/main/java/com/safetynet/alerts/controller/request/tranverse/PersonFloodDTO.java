@@ -1,8 +1,8 @@
-package com.safetynet.alerts.controller.request;
+package com.safetynet.alerts.controller.request.tranverse;
 
 import java.util.List;
 
-public class PersonForFireDTO {
+public class PersonFloodDTO {
     private final String firstName;
     private final String lastName;
     private final String phone;
@@ -10,7 +10,7 @@ public class PersonForFireDTO {
     private final List<String> medications;
     private final List<String> allergies;
 
-    public PersonForFireDTO(String firstName, String lastName, String phone, Integer age, List<String> medications, List<String> allergies) {
+    public PersonFloodDTO(String firstName, String lastName, String phone, Integer age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -21,7 +21,7 @@ public class PersonForFireDTO {
 
     @Override
     public String toString() {
-        return "PersonForFireDTO{" +
+        return "PersonFloodDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +

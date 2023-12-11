@@ -1,34 +1,22 @@
-package com.safetynet.alerts.controller.request;
+package com.safetynet.alerts.controller.request.tranverse;
 
 import java.util.List;
 
-public class PersonFloodDTO {
+public class PersonInfoDTO {
     private final String firstName;
     private final String lastName;
-    private final String phone;
+    private final String email;
     private final Integer age;
     private final List<String> medications;
     private final List<String> allergies;
 
-    public PersonFloodDTO(String firstName, String lastName, String phone, Integer age, List<String> medications, List<String> allergies) {
+    public PersonInfoDTO(String firstName, String lastName, String email, Integer age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
+        this.email = email;
         this.age = age;
         this.medications = medications;
         this.allergies = allergies;
-    }
-
-    @Override
-    public String toString() {
-        return "PersonFloodDTO{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", age=" + age +
-                ", medications=" + medications +
-                ", allergies=" + allergies +
-                '}';
     }
 
     public String getFirstName() {
@@ -39,8 +27,8 @@ public class PersonFloodDTO {
         return lastName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
     public Integer getAge() {
@@ -53,5 +41,17 @@ public class PersonFloodDTO {
 
     public List<String> getAllergies() {
         return allergies;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonInfoDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                '}';
     }
 }

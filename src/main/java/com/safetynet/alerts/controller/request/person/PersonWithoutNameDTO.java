@@ -1,4 +1,4 @@
-package com.safetynet.alerts.controller.request;
+package com.safetynet.alerts.controller.request.person;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

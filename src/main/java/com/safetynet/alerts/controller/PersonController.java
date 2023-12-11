@@ -1,8 +1,8 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.controller.request.MapperDTO;
-import com.safetynet.alerts.controller.request.PersonDTO;
-import com.safetynet.alerts.controller.request.PersonWithoutNameDTO;
+import com.safetynet.alerts.controller.request.person.PersonDTO;
+import com.safetynet.alerts.controller.request.person.PersonWithoutNameDTO;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 import jakarta.validation.Valid;

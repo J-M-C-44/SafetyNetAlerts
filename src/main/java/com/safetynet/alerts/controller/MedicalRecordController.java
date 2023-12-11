@@ -1,8 +1,8 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.controller.request.MapperDTO;
-import com.safetynet.alerts.controller.request.MedicalRecordDTO;
-import com.safetynet.alerts.controller.request.MedicalRecordWithoutNameDTO;
+import com.safetynet.alerts.controller.request.medicalrecord.MedicalRecordDTO;
+import com.safetynet.alerts.controller.request.medicalrecord.MedicalRecordWithoutNameDTO;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.IMedicalRecordService;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.safetynet.alerts.controller.request;
+package com.safetynet.alerts.controller.request.firestation;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

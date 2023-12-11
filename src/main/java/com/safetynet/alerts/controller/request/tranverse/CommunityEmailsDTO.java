@@ -1,4 +1,4 @@
-package com.safetynet.alerts.controller.request;
+package com.safetynet.alerts.controller.request.tranverse;
 
 
 import java.util.List;

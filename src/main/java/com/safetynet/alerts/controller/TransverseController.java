@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.controller.request.*;
+import com.safetynet.alerts.controller.request.tranverse.*;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 import com.safetynet.alerts.service.ITransverseService;
