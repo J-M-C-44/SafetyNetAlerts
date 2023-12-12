@@ -7,7 +7,6 @@ import com.safetynet.alerts.controller.request.tranverse.StationAndCoveredPerson
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.utils.AgeUtil;
 import com.safetynet.alerts.repository.IFirestationRepository;
 import com.safetynet.alerts.repository.IMedicalRecordRepository;
 import com.safetynet.alerts.repository.IPersonRepository;
@@ -15,6 +14,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -23,6 +25,7 @@ public class TransverseServiceImpl implements ITransverseService {
     private final IFirestationRepository firestationRepository;
     private final IPersonRepository personRepository;
     private final IMedicalRecordRepository medicalRecordRepository;
+    private static final int MAJORITY_AGE = 18;
 
     public TransverseServiceImpl(IFirestationRepository firestationRepository, IPersonRepository personRepository, IMedicalRecordRepository medicalRecordRepository) {
         this.firestationRepository = firestationRepository;
@@ -50,7 +53,7 @@ public class TransverseServiceImpl implements ITransverseService {
                 for (Person person : persons) {
                     personsCoveredByStation.addPerson(person);
                     Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-                    if (medicalRecord.isPresent() && Boolean.TRUE.equals(AgeUtil.isChild(medicalRecord.get().getBirthdate())) ) {
+                    if (medicalRecord.isPresent() && Boolean.TRUE.equals(isChild(medicalRecord.get().getBirthdate())) ) {
                         personsCoveredByStation.incrementChildren() ;
                     } else {
                         personsCoveredByStation.incrementAdults();
@@ -74,9 +77,9 @@ public class TransverseServiceImpl implements ITransverseService {
             logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- going to found corresponding medical records for persons= {}", persons);
             for (Person person : persons) {
                 Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-                if (medicalRecord.isPresent() && Boolean.TRUE.equals(AgeUtil.isChild(medicalRecord.get().getBirthdate())) ) {
+                if (medicalRecord.isPresent() && Boolean.TRUE.equals(isChild(medicalRecord.get().getBirthdate())) ) {
                     MedicalRecord foundMedicalRecord = medicalRecord.get();
-                    Integer childrenAge = AgeUtil.calculateAgeFromDate(foundMedicalRecord.getBirthdate());
+                    Integer childrenAge = calculateAgeFromDate(foundMedicalRecord.getBirthdate());
                     List<Person> otherHomeMembers = persons.stream()
                         .filter(p -> !(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
                         .toList();
@@ -162,7 +165,7 @@ public class TransverseServiceImpl implements ITransverseService {
             Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
             if (medicalRecord.isPresent()) {
                 personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
-                personAndMedicalRecordwithAge.setAge(AgeUtil.calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+                personAndMedicalRecordwithAge.setAge(calculateAgeFromDate(medicalRecord.get().getBirthdate()));
             } else {
                 logger.debug("  serv - getPersonsAndMedicalRecordwithAge - KO - no medicalRecords for = {}", person);
             }
@@ -171,4 +174,17 @@ public class TransverseServiceImpl implements ITransverseService {
         return personsAndMedicalRecordwithAge;
     }
 
+    private Integer calculateAgeFromDate(String birthdate){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate formatedBirthdate = LocalDate.parse(birthdate, format);
+
+        return Period.between(formatedBirthdate, LocalDate.now()).getYears();
+    }
+
+    private Boolean isChild(String birthdate){
+        if (birthdate == null || birthdate.isEmpty()) {
+            return false;
+        }
+        return (calculateAgeFromDate(birthdate) <  MAJORITY_AGE);
+    }
 }
