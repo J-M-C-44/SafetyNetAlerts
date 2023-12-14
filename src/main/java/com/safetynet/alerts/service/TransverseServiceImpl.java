@@ -78,18 +78,21 @@ public class TransverseServiceImpl implements ITransverseService {
             for (Person person : persons) {
                 Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 if (medicalRecord.isPresent() && Boolean.TRUE.equals(isChild(medicalRecord.get().getBirthdate())) ) {
-                    MedicalRecord foundMedicalRecord = medicalRecord.get();
-                    Integer childrenAge = calculateAgeFromDate(foundMedicalRecord.getBirthdate());
-                    List<Person> otherHomeMembers = persons.stream()
-                        .filter(p -> !(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
-                        .toList();
-                    childrenAndHomeMembers.add(new ChildAndHomeMembers(foundMedicalRecord, childrenAge, otherHomeMembers));
+                    childrenAndHomeMembers.add(new ChildAndHomeMembers(medicalRecord.get(),
+                                                                       calculateAgeFromDate(medicalRecord.get().getBirthdate()),
+                                                                       getOtherHomeMembers(persons, person)));
                 } else {
                     logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- KO - no children found in medicalRecords for = {}", person);
                 }
             }
         }
         return childrenAndHomeMembers;
+    }
+
+    private static List<Person> getOtherHomeMembers(List<Person> persons, Person person) {
+        return persons.stream()
+                      .filter(p -> !(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+                      .toList();
     }
 
     @Override
