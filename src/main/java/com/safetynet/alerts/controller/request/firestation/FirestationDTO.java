@@ -27,7 +27,7 @@ public class FirestationDTO {
     public String toString() {
         return "FirestationDTO{" +
                 "address='" + address + '\'' +
-                ", station=" + station +
+                ", station='" + station + '\'' +
                 '}';
     }
 }

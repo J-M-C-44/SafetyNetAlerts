@@ -59,7 +59,7 @@ public class FirestationServiceImpl implements IFirestationService{
             logger.debug("  serv - deleteFirestation going to delete firestation : address = {}", address);
             Firestation firestationToDelete = firestation.get();
             firestationRepository.delete(firestationToDelete);
-        } else {
+        } else { // TODO: voir avec mentor pourquoi pas de code coverage
             logger.debug("  serv - deleteFirestation KO - firestation not found: address = {}", address);
             throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         }
