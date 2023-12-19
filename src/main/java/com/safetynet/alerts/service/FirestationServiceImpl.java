@@ -30,39 +30,36 @@ public class FirestationServiceImpl implements IFirestationService{
             logger.debug("  serv - addFirestation KO - firestation already exist: address = {}, station = {}",
                          firestationToAdd.getAddress(), firestationToAdd.getStation());
             throw new AlreadyExistsException("firestation with these address and station already exist !");
-        } else {
-            logger.debug("  serv - addFirestation - going to add firestation : address = {}, station = {}",
-                    firestationToAdd.getAddress(), firestationToAdd.getStation());
-            return firestationRepository.add(firestationToAdd);
         }
+        logger.debug("  serv - addFirestation - going to add firestation : address = {}, station = {}",
+                firestationToAdd.getAddress(), firestationToAdd.getStation());
+        return firestationRepository.add(firestationToAdd);
     }
 
     @Override
     public Firestation updateFirestation(Firestation firestationToUpdate) {
         logger.debug("  serv - updateFirestation going to verify if firestation exist with address = {}", firestationToUpdate.getAddress());
         Optional<Firestation> firestation = firestationRepository.findByAddress(firestationToUpdate.getAddress());
-        if (firestation.isPresent()) {
-            logger.debug("  serv - updateFirestation going to update firestation : address = {}", firestationToUpdate.getAddress());
-            Firestation currentFirestation = firestation.get();
-            return firestationRepository.update(currentFirestation, firestationToUpdate);
-        } else {
+        if (firestation.isEmpty()) {
             logger.debug("  serv - updateFirestation KO - firestation not found: address = {}", firestationToUpdate.getAddress());
             throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         }
+        logger.debug("  serv - updateFirestation going to update firestation : address = {}", firestationToUpdate.getAddress());
+        Firestation currentFirestation = firestation.get();
+        return firestationRepository.update(currentFirestation, firestationToUpdate);
     }
 
     @Override
     public void deleteFirestationByAddress(String address) {
         logger.debug("  serv - deleteFirestation going to verify if firestation exist: address = {}", address);
         Optional<Firestation> firestation = firestationRepository.findByAddress(address);
-        if (firestation.isPresent()) {
-            logger.debug("  serv - deleteFirestation going to delete firestation : address = {}", address);
-            Firestation firestationToDelete = firestation.get();
-            firestationRepository.delete(firestationToDelete);
-        } else { // TODO: voir avec mentor pourquoi pas de code coverage
+        if (firestation.isEmpty()) {
             logger.debug("  serv - deleteFirestation KO - firestation not found: address = {}", address);
             throw new NotFoundException(MESSAGE_FIRESTATION_NOT_FOUND);
         }
+        logger.debug("  serv - deleteFirestation going to delete firestation : address = {}", address);
+        Firestation firestationToDelete = firestation.get();
+        firestationRepository.delete(firestationToDelete);
     }
 
     @Override
