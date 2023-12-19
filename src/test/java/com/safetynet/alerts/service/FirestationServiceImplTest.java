@@ -32,7 +32,7 @@ class FirestationServiceImplTest {
     /** Service à mocker */
     @Mock
     IFirestationRepository firestationRepositoryMock;
-    /** Class tester où injecter les mocks */
+    /** Class à tester (avec injection des mocks)*/
     @InjectMocks
     FirestationServiceImpl firestationServiceImpl;
     // une autre facçon de faire
@@ -43,6 +43,7 @@ class FirestationServiceImplTest {
     void addFirestation_shouldBeOKandReturnFirestation() {
         //arrange
         Firestation firestationToAdd    = firestation1;
+        when(firestationRepositoryMock.findByAddressAndStation(anyString(),anyString())).thenReturn(Optional.empty());
         when(firestationRepositoryMock.add(any(Firestation.class))).thenReturn(firestationToAdd);
 
         //act
@@ -51,6 +52,7 @@ class FirestationServiceImplTest {
 
         //assert
         assertThat(result).usingRecursiveComparison().isEqualTo(firestationExpected);
+        verify(firestationRepositoryMock,times(1)).findByAddressAndStation("5, road to Nantes", "99");
         verify(firestationRepositoryMock,times(1)).add(firestationToAdd);
     }
 

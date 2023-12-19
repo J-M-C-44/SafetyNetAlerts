@@ -34,11 +34,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService{
             logger.debug("  serv - addMedicalRecord KO - medicalRecord already exist: firstname = {}, lastname = {}",
                          medicalRecordToAdd.getFirstName(), medicalRecordToAdd.getLastName());
             throw new AlreadyExistsException("medicalRecord with these firstname and lastname already exist !");
-        } else {
-            logger.debug("  serv - addMedicalRecord - going to add medicalRecord : firstname = {}, lastname = {}",
-                         medicalRecordToAdd.getFirstName(), medicalRecordToAdd.getLastName());
-            return medicalRecordRepository.add(medicalRecordToAdd);
         }
+
+        logger.debug("  serv - addMedicalRecord - going to add medicalRecord : firstname = {}, lastname = {}",
+                     medicalRecordToAdd.getFirstName(), medicalRecordToAdd.getLastName());
+        return medicalRecordRepository.add(medicalRecordToAdd);
         
     }
 
@@ -48,16 +48,15 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService{
                     medicalRecordToUpdate.getFirstName(), medicalRecordToUpdate.getLastName());
         Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(
                     medicalRecordToUpdate.getFirstName(), medicalRecordToUpdate.getLastName());
-        if (medicalRecord.isPresent()) {
-            logger.debug("  serv - updateMedicalRecord going to update medicalRecord : firstname = {}, lastname = {}",
-                    medicalRecordToUpdate.getFirstName(), medicalRecordToUpdate.getLastName());
-            MedicalRecord currentMedicalRecord = medicalRecord.get();
-            return medicalRecordRepository.update(currentMedicalRecord, medicalRecordToUpdate);
-        } else {
+        if (medicalRecord.isEmpty()) {
             logger.debug("  serv - updateMedicalRecord KO - medicalRecord not found: firstname = {}, lastname = {}",
                     medicalRecordToUpdate.getFirstName(), medicalRecordToUpdate.getLastName());
             throw new NotFoundException("medicalRecord not found");
         }
+        logger.debug("  serv - updateMedicalRecord going to update medicalRecord : firstname = {}, lastname = {}",
+                medicalRecordToUpdate.getFirstName(), medicalRecordToUpdate.getLastName());
+        MedicalRecord currentMedicalRecord = medicalRecord.get();
+        return medicalRecordRepository.update(currentMedicalRecord, medicalRecordToUpdate);
         
     }
 
@@ -65,14 +64,13 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService{
     public void deleteMedicalRecord(String firstname, String lastname) {
         logger.debug("  serv - deleteMedicalRecord going to verify if medicalRecord exist: firstname = {}, lastname = {}", firstname, lastname);
         Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(firstname, lastname);
-        if (medicalRecord.isPresent()) {
-            logger.debug("  serv - deleteMedicalRecord going to delete medicalRecord : firstname = {}, lastname = {}", firstname, lastname);
-            MedicalRecord medicalRecordToDelete = medicalRecord.get();
-            medicalRecordRepository.delete(medicalRecordToDelete);
-        } else {
+        if (medicalRecord.isEmpty()) {
             logger.debug("  serv - deleteMedicalRecord KO - medicalRecord not found: firstname = {}, lastname = {}", firstname, lastname);
             throw new NotFoundException("medicalRecord not found");
         }
+        logger.debug("  serv - deleteMedicalRecord going to delete medicalRecord : firstname = {}, lastname = {}", firstname, lastname);
+        MedicalRecord medicalRecordToDelete = medicalRecord.get();
+        medicalRecordRepository.delete(medicalRecordToDelete);
     }
 
 }

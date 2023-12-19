@@ -34,11 +34,10 @@ public class PersonServiceImpl implements IPersonService {
             logger.debug("  serv - addPerson KO - person already exist: firstname = {}, lastname = {}",
                          personToAdd.getFirstName(), personToAdd.getLastName());
             throw new AlreadyExistsException("person with these firstname and lastname already exist !");
-        } else {
-            logger.debug("  serv - addPerson - going to add person : firstname = {}, lastname = {}",
-                         personToAdd.getFirstName(), personToAdd.getLastName());
-            return personRepository.add(personToAdd);
         }
+        logger.debug("  serv - addPerson - going to add person : firstname = {}, lastname = {}",
+                     personToAdd.getFirstName(), personToAdd.getLastName());
+        return personRepository.add(personToAdd);
     }
 
     @Override
@@ -46,30 +45,28 @@ public class PersonServiceImpl implements IPersonService {
         logger.debug("  serv - updatePerson going to verify if person exist: firstname = {}, lastname = {}",
                         personToUpdate.getFirstName(), personToUpdate.getLastName());
         Optional<Person> person = personRepository.findByFirstNameAndLastName(personToUpdate.getFirstName(), personToUpdate.getLastName());
-        if (person.isPresent()) {
-            logger.debug("  serv - updatePerson going to update person : firstname = {}, lastname = {}",
-                            personToUpdate.getFirstName(), personToUpdate.getLastName());
-            Person currentPerson = person.get();
-            return personRepository.update(currentPerson, personToUpdate);
-        } else {
+        if (person.isEmpty()) {
             logger.debug("  serv - updatePerson KO - person not found: firstname = {}, lastname = {}",
                             personToUpdate.getFirstName(), personToUpdate.getLastName());
             throw new NotFoundException("person not found");
         }
+        logger.debug("  serv - updatePerson going to update person : firstname = {}, lastname = {}",
+                personToUpdate.getFirstName(), personToUpdate.getLastName());
+        Person currentPerson = person.get();
+        return personRepository.update(currentPerson, personToUpdate);
     }
 
     @Override
     public void deletePerson(String firstname, String lastname) {
         logger.debug("  serv - deletePerson going to verify if person exist: firstname = {}, lastname = {}", firstname, lastname);
         Optional<Person> person = personRepository.findByFirstNameAndLastName(firstname, lastname);
-        if (person.isPresent()) {
-            logger.debug("  serv - deletePerson going to delete person : firstname = {}, lastname = {}", firstname, lastname);
-            Person personToDelete = person.get();
-            personRepository.delete(personToDelete);
-        } else {
+        if (person.isEmpty()) {
             logger.debug("  serv - deletePerson KO - person not found: firstname = {}, lastname = {}", firstname, lastname);
             throw new NotFoundException("person not found");
         }
+        logger.debug("  serv - deletePerson going to delete person : firstname = {}, lastname = {}", firstname, lastname);
+        Person personToDelete = person.get();
+        personRepository.delete(personToDelete);
     }
 
     @Override
