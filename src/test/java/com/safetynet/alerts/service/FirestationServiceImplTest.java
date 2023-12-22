@@ -35,7 +35,7 @@ class FirestationServiceImplTest {
     /** Class à tester (avec injection des mocks)*/
     @InjectMocks
     FirestationServiceImpl firestationServiceImpl;
-    // une autre facçon de faire
+    // une autre façon de faire
     // FirestationRepositoryImpl firestationRepositoryMock = mock(FirestationRepositoryImpl.class);
     // FirestationServiceImpl firestationServiceImpl = new FirestationServiceImpl(firestationRepositoryMock);
 
