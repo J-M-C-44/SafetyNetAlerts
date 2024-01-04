@@ -120,10 +120,10 @@ public class MapperDTO {
                 .toList());
     }
 
-    public FireDTO stationAndCoveredPersonAndMedicalRecordwithAgeToFireDTO(StationAndCoveredPersonsAndMedicalRecordwithAge personsForFire) {
+    public FireDTO stationAndCoveredPersonAndMedicalRecordWithAgeToFireDTO(StationAndCoveredPersonsAndMedicalRecordWithAge personsForFire) {
         return new FireDTO(
                 personsForFire.getStation(),
-                personsForFire.getPersonsAndMedicalRecordwithAge().stream()
+                personsForFire.getPersonsAndMedicalRecordWithAge().stream()
                         .map(p -> new PersonForFireDTO(p.getPerson().getFirstName(),
                                                        p.getPerson().getLastName(),
                                                        p.getPerson().getPhone(),
@@ -134,10 +134,10 @@ public class MapperDTO {
                 );
     }
 
-    public Map<String, List<PersonFloodDTO>> personAndMedicalRecordWithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordwithAge>> personsForFlood) {
+    public Map<String, List<PersonFloodDTO>> personAndMedicalRecordWithAgeToFloodDTO(Map<String, List<PersonAndMedicalRecordWithAge>> personsForFlood) {
 
         Map<String, List<PersonFloodDTO>> floodDTO = new HashMap<>();
-        for (Map.Entry<String, List<PersonAndMedicalRecordwithAge>> entry : personsForFlood.entrySet()) {
+        for (Map.Entry<String, List<PersonAndMedicalRecordWithAge>> entry : personsForFlood.entrySet()) {
             List<PersonFloodDTO> personFloodDTOList = entry.getValue().stream()
                     .map(p -> new PersonFloodDTO(p.getPerson().getFirstName(),
                             p.getPerson().getLastName(),
@@ -151,7 +151,7 @@ public class MapperDTO {
         return floodDTO;
     }
 
-    public List<PersonInfoDTO> personAndMedicalRecordWithAgeToPersonsInfoDTO(List<PersonAndMedicalRecordwithAge> personsInfo) {
+    public List<PersonInfoDTO> personAndMedicalRecordWithAgeToPersonsInfoDTO(List<PersonAndMedicalRecordWithAge> personsInfo) {
         return personsInfo.stream()
                 .map(p -> new PersonInfoDTO(p.getPerson().getFirstName(),
                         p.getPerson().getLastName(),

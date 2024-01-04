@@ -77,13 +77,13 @@ public class TransverseController {
     }
 
     @GetMapping("/fire")
-    public ResponseEntity<FireDTO> getPersonsForFirebByAddress2(@NotBlank @RequestParam final String address ) {
+    public ResponseEntity<FireDTO> getPersonsForFirebByAddress(@NotBlank @RequestParam final String address ) {
         logger.info("ctlr - received request - GET getPersonsFirebyAddress: stationNumber = {}", address);
 
-        StationAndCoveredPersonsAndMedicalRecordwithAge stationAndPersonsForFire = transverseService.getPersonsForFirebyAddress(address);
-        ResponseEntity<FireDTO> response = stationAndPersonsForFire.getPersonsAndMedicalRecordwithAge().isEmpty()
+        StationAndCoveredPersonsAndMedicalRecordWithAge stationAndPersonsForFire = transverseService.getPersonsForFirebyAddress(address);
+        ResponseEntity<FireDTO> response = stationAndPersonsForFire.getPersonsAndMedicalRecordWithAge().isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(mapperDTO.stationAndCoveredPersonAndMedicalRecordwithAgeToFireDTO(stationAndPersonsForFire), HttpStatus.OK);
+                : new ResponseEntity<>(mapperDTO.stationAndCoveredPersonAndMedicalRecordWithAgeToFireDTO(stationAndPersonsForFire), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPersonsFirebyAddress : {}", response);
         return response;
 
@@ -93,7 +93,7 @@ public class TransverseController {
     public ResponseEntity<Map<String, List<PersonFloodDTO>>> getPersonsForFloodByStations(@NotNull @RequestParam("stations") final List<String> stationNumbers ) {
         logger.info("ctlr - received request - GET getPersonsForFloodByStations: stationNumber = {}", stationNumbers);
 
-        Map<String,List<PersonAndMedicalRecordwithAge>> personsForFlood = transverseService.getPersonsForFloodByStations(stationNumbers);
+        Map<String,List<PersonAndMedicalRecordWithAge>> personsForFlood = transverseService.getPersonsForFloodByStations(stationNumbers);
         ResponseEntity<Map<String, List<PersonFloodDTO>>> response = personsForFlood.isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.personAndMedicalRecordWithAgeToFloodDTO(personsForFlood), HttpStatus.OK);
@@ -107,7 +107,7 @@ public class TransverseController {
                                                               @NotBlank @RequestParam final String lastName ) {
         logger.info("ctlr - received request - GET getPersonInfobyName: firstName = {}, lastName = {}", firstName, lastName);
 
-        List<PersonAndMedicalRecordwithAge> personsInfo = transverseService.getPersonInfobyName(firstName, lastName);
+        List<PersonAndMedicalRecordWithAge> personsInfo = transverseService.getPersonInfobyName(firstName, lastName);
         ResponseEntity<List<PersonInfoDTO>> response = personsInfo.isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.personAndMedicalRecordWithAgeToPersonsInfoDTO(personsInfo), HttpStatus.OK);

@@ -1,9 +1,9 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.controller.request.tranverse.ChildAndHomeMembers;
-import com.safetynet.alerts.controller.request.tranverse.PersonAndMedicalRecordwithAge;
+import com.safetynet.alerts.controller.request.tranverse.PersonAndMedicalRecordWithAge;
 import com.safetynet.alerts.controller.request.tranverse.PersonsCoveredByStation;
-import com.safetynet.alerts.controller.request.tranverse.StationAndCoveredPersonsAndMedicalRecordwithAge;
+import com.safetynet.alerts.controller.request.tranverse.StationAndCoveredPersonsAndMedicalRecordWithAge;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
@@ -44,11 +44,11 @@ public class TransverseServiceImpl implements ITransverseService {
         if (firestations.isEmpty()) {
             logger.debug("  serv - getPersonsCoveredByStation KO - firestation not found: station = {}", stationNumber);
         } else {
-            logger.debug("  serv - getPersonsCoveredByStation -2- going to found persons with matching addresses for station = {}", stationNumber);
+            logger.debug("  serv - getPersonsCoveredByStation -2- going to find persons with matching addresses for station = {}", stationNumber);
 
             for (Firestation firestation : firestations) {
                 List<Person> persons = personRepository.findByAddress(firestation.getAddress());
-                logger.debug("  serv - getPersonsCoveredByStation -3- going to found corresponding medical records for persons= {}", persons);
+                logger.debug("  serv - getPersonsCoveredByStation -3- going to find corresponding medical records for persons= {}", persons);
 
                 for (Person person : persons) {
                     personsCoveredByStation.addPerson(person);
@@ -68,13 +68,13 @@ public class TransverseServiceImpl implements ITransverseService {
     public List<ChildAndHomeMembers> getChildrenAndHomeMembersByAddress(String address) {
         List<ChildAndHomeMembers> childrenAndHomeMembers  = new ArrayList<>();
 
-        logger.debug("  serv - getChildrenAndHomeMembersByAddress -1- going to found persons for address = {}", address);
+        logger.debug("  serv - getChildrenAndHomeMembersByAddress -1- going to find persons for address = {}", address);
         List<Person> persons = personRepository.findByAddress(address);
         if (persons.isEmpty()) {
             logger.debug("  serv - getChildrenAndHomeMembersByAddress -1- KO - person not found: for address = {}", address);
 
         } else {
-            logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- going to found corresponding medical records for persons= {}", persons);
+            logger.debug("  serv - getChildrenAndHomeMembersByAddress -2- going to find corresponding medical records for persons= {}", persons);
             for (Person person : persons) {
                 Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 if (medicalRecord.isPresent() && Boolean.TRUE.equals(isChild(medicalRecord.get().getBirthdate())) ) {
@@ -105,7 +105,7 @@ public class TransverseServiceImpl implements ITransverseService {
         if (firestations.isEmpty()) {
             logger.debug("  serv - getPersonsByStation KO - firestation not found: station = {}", stationNumber);
         } else {
-            logger.debug("  serv - getPersonsByStation -2- going to found persons with matching addresses for station = {}", stationNumber);
+            logger.debug("  serv - getPersonsByStation -2- going to find persons with matching addresses for station = {}", stationNumber);
             for (Firestation firestation : firestations) {
                 personsByStation.addAll(personRepository.findByAddress(firestation.getAddress()));
             }
@@ -114,25 +114,26 @@ public class TransverseServiceImpl implements ITransverseService {
     }
 
     @Override
-    public StationAndCoveredPersonsAndMedicalRecordwithAge getPersonsForFirebyAddress(String address) {
-        logger.debug("  serv - getPersonsForFirebyAddress -1- going to found firestation for address = {}", address);
+    //ICIJCO: refaire test endpoint pour vérif valeur null
+    public StationAndCoveredPersonsAndMedicalRecordWithAge getPersonsForFirebyAddress(String address) {
+        logger.debug("  serv - getPersonsForFirebyAddress -1- going to find firestation for address = {}", address);
         Optional<Firestation> firestation = firestationRepository.findByAddress(address);
-        String station = firestation.isPresent() ? (firestation.get().getStation()) : "";
+        String station = firestation.map(Firestation::getStation).orElse(null);
 
-        logger.debug("  serv - getPersonsForFirebyAddress -2- going to found persons for address = {}", address);
+        logger.debug("  serv - getPersonsForFirebyAddress -2- going to find persons for address = {}", address);
         List<Person> persons = personRepository.findByAddress(address);
         if (persons.isEmpty()) {
             logger.debug("  serv - getPersonsForFirebyAddress -2- KO - person not found: for address = {}", address);
         } else {
-            logger.debug("  serv - getPersonsForFirebyAddress -3- going to found corresponding medical records for persons= {}", persons);
+            logger.debug("  serv - getPersonsForFirebyAddress -3- going to find corresponding medical records for persons= {}", persons);
         }
-        return new StationAndCoveredPersonsAndMedicalRecordwithAge(station, getPersonsAndMedicalRecordwithAge(persons));
+        return new StationAndCoveredPersonsAndMedicalRecordWithAge(station, getPersonsAndMedicalRecordWithAge(persons));
     }
 
     @Override
-    public Map<String, List<PersonAndMedicalRecordwithAge>> getPersonsForFloodByStations(List<String> stationNumbers) {
-        logger.debug("  serv - getPersonsForFloodByStations -1- going to found firestation addresses for stations = {}", stationNumbers);
-        Map<String, List<PersonAndMedicalRecordwithAge>> personFloodMap = new HashMap<>();
+    public Map<String, List<PersonAndMedicalRecordWithAge>> getPersonsForFloodByStations(List<String> stationNumbers) {
+        logger.debug("  serv - getPersonsForFloodByStations -1- going to find firestation addresses for stations = {}", stationNumbers);
+        Map<String, List<PersonAndMedicalRecordWithAge>> personFloodMap = new HashMap<>();
 
         List<String> addresses = new ArrayList<>();
         stationNumbers.forEach((stationNumber -> addresses.addAll(firestationRepository.findByStation(stationNumber).stream()
@@ -142,11 +143,11 @@ public class TransverseServiceImpl implements ITransverseService {
         if (addresses.isEmpty()) {
             logger.debug("  serv - getPersonsForFloodByStations -1- KO - firestation addresses not found for stations = {}", stationNumbers);
         } else {
-            logger.debug("  serv - getPersonsForFloodByStations -2- going to found persons with matching addresses for stations = {}", stationNumbers);
+            logger.debug("  serv - getPersonsForFloodByStations -2- going to find persons with matching addresses for stations = {}", stationNumbers);
             for (String address : addresses) {
                 List<Person> persons = personRepository.findByAddress(address);
-                logger.debug("  serv - getPersonsForFloodByStations -3- going to found corresponding medical records for persons= {}", persons);
-                personFloodMap.put(address,getPersonsAndMedicalRecordwithAge(persons));
+                logger.debug("  serv - getPersonsForFloodByStations -3- going to find corresponding medical records for persons= {}", persons);
+                personFloodMap.put(address, getPersonsAndMedicalRecordWithAge(persons));
                 }
             }
 
@@ -154,27 +155,27 @@ public class TransverseServiceImpl implements ITransverseService {
     }
 
     @Override
-    public List<PersonAndMedicalRecordwithAge> getPersonInfobyName(String firstName, String lastName) {
+    public List<PersonAndMedicalRecordWithAge> getPersonInfobyName(String firstName, String lastName) {
 
         logger.debug("  serv - getPersonInfobyName - going to find persons with firstname = {} and lastname = {}", firstName, lastName);
         List<Person> persons = personRepository.findAllByFirstNameAndLastName(firstName, lastName);
-        return getPersonsAndMedicalRecordwithAge(persons);
+        return getPersonsAndMedicalRecordWithAge(persons);
     }
 
-    private List<PersonAndMedicalRecordwithAge> getPersonsAndMedicalRecordwithAge(List<Person> persons) {
-        List<PersonAndMedicalRecordwithAge> personsAndMedicalRecordwithAge = new ArrayList<>();
+    private List<PersonAndMedicalRecordWithAge> getPersonsAndMedicalRecordWithAge(List<Person> persons) {
+        List<PersonAndMedicalRecordWithAge> personsAndMedicalRecordWithAge = new ArrayList<>();
         for (Person person : persons) {
-            PersonAndMedicalRecordwithAge personAndMedicalRecordwithAge = new PersonAndMedicalRecordwithAge(person);
+            PersonAndMedicalRecordWithAge personAndMedicalRecordWithAge = new PersonAndMedicalRecordWithAge(person);
             Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
             if (medicalRecord.isPresent()) {
-                personAndMedicalRecordwithAge.setMedicalRecord(medicalRecord.get());
-                personAndMedicalRecordwithAge.setAge(calculateAgeFromDate(medicalRecord.get().getBirthdate()));
+                personAndMedicalRecordWithAge.setMedicalRecord(medicalRecord.get());
+                personAndMedicalRecordWithAge.setAge(calculateAgeFromDate(medicalRecord.get().getBirthdate()));
             } else {
-                logger.debug("  serv - getPersonsAndMedicalRecordwithAge - KO - no medicalRecords for = {}", person);
+                logger.debug("  serv - getPersonsAndMedicalRecordWithAge - KO - no medicalRecords for = {}", person);
             }
-            personsAndMedicalRecordwithAge.add(personAndMedicalRecordwithAge);
+            personsAndMedicalRecordWithAge.add(personAndMedicalRecordWithAge);
         }
-        return personsAndMedicalRecordwithAge;
+        return personsAndMedicalRecordWithAge;
     }
 
     private Integer calculateAgeFromDate(String birthdate){
