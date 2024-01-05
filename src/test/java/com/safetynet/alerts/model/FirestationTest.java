@@ -9,11 +9,11 @@ class FirestationTest {
     @Test
     void toStringFirestation_shouldCreateFirestationAndDisplayAttributes() {
         //arrange
-        String expected = "Firestation{address='5, road to Nantes', station=99}";
 
         //act
         Firestation firestation = new Firestation("5, road to Nantes", "99");
         String result= firestation.toString();
+        String expected = "Firestation{address='5, road to Nantes', station=99}";
 
         //assert
         assertThat(result).isEqualTo(expected);
@@ -35,7 +35,6 @@ class FirestationTest {
         //assert
         assertThat(resultAddress).isEqualTo(expectedAddress);
         assertThat(resultStation).isEqualTo(expectedStation);
-
 
     }
 }

@@ -22,8 +22,8 @@ import static org.mockito.Mockito.*;
 class MedicalRecordServiceImplTest {
     private final MedicalRecord medicalRecord1 = new MedicalRecord("Harry","Covert","12/31/2000", List.of("suppo:1u", "paracetamol:500mg"), List.of("bouleau"));
     private final MedicalRecord medicalRecord2 = new MedicalRecord("Harry","Covert","11/30/2001", List.of("suppo:2u", "paracetamol:1000mg"), List.of(""));
-    private static final String firstName = "Harry";
-    private static final String lastName = "Covert";
+    private static final String FIRST_NAME = "Harry";
+    private static final String LAST_NAME = "Covert";
 
     /** Service à mocker */
     @Mock
@@ -39,7 +39,7 @@ class MedicalRecordServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecordToFind));
 
         //act
-        Optional<MedicalRecord> result = medicalRecordServiceImpl.getMedicalRecord(firstName,lastName);
+        Optional<MedicalRecord> result = medicalRecordServiceImpl.getMedicalRecord(FIRST_NAME, LAST_NAME);
         Optional<MedicalRecord> medicalRecordExpected = Optional.of(medicalRecord1);
 
         //assert
@@ -121,7 +121,7 @@ class MedicalRecordServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecordToDelete));
 
         //act
-        medicalRecordServiceImpl.deleteMedicalRecord(firstName,lastName);
+        medicalRecordServiceImpl.deleteMedicalRecord(FIRST_NAME, LAST_NAME);
         MedicalRecord medicalRecordExpected  = medicalRecord1;
 
         //assert
@@ -136,7 +136,7 @@ class MedicalRecordServiceImplTest {
 
         //act
         NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> medicalRecordServiceImpl.deleteMedicalRecord(firstName,lastName));
+                () -> medicalRecordServiceImpl.deleteMedicalRecord(FIRST_NAME, LAST_NAME));
 
         //assert
         assertThat(exception.getMessage()).isEqualTo("medicalRecord not found");

@@ -59,5 +59,5 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository{
         jsonDataBaseService.saveDataBaseInFile();
         logger.debug("  repo -  update medicalRecord OK for {}", medicalRecordToUpdate);
         return medicalRecordToUpdate;
-}
+    }
 }

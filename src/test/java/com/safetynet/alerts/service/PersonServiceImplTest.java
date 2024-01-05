@@ -23,8 +23,8 @@ import static org.mockito.Mockito.*;
 class PersonServiceImplTest {
     private final Person person1 = new Person("Harry","Covert","5, road to Nantes","Treillieres","12345","800-800-1234","harry.covert@gmail.com");
     private final Person person2 = new Person("Harry","Covert","5, road to Brest","Nantes","44000","800-800-2345","harry.covert2@gmail.com");
-    private static final String firstName = "Harry";
-    private static final String lastName = "Covert";
+    private static final String FIRST_NAME = "Harry";
+    private static final String LAST_NAME = "Covert";
 
     /** Service à mocker */
     @Mock
@@ -40,7 +40,7 @@ class PersonServiceImplTest {
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(personToFind));
 
         //act
-        Optional<Person> result = personServiceImpl.getPerson(firstName,lastName);
+        Optional<Person> result = personServiceImpl.getPerson(FIRST_NAME, LAST_NAME);
         Optional<Person> personExpected = Optional.of(person1);
 
         //assert
@@ -121,7 +121,7 @@ class PersonServiceImplTest {
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(personToDelete));
 
         //act
-        personServiceImpl.deletePerson(firstName,lastName);
+        personServiceImpl.deletePerson(FIRST_NAME, LAST_NAME);
         Person personExpected  = person1;
 
         //assert
@@ -136,7 +136,7 @@ class PersonServiceImplTest {
 
         //act
         NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> personServiceImpl.deletePerson(firstName,lastName));
+                () -> personServiceImpl.deletePerson(FIRST_NAME, LAST_NAME));
 
         //assert
         assertThat(exception.getMessage()).isEqualTo("person not found");

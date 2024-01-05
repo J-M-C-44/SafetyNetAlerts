@@ -42,7 +42,7 @@ class FirestationServiceImplTest {
     @Test
     void addFirestation_shouldBeOKandReturnFirestation() {
         //arrange
-        Firestation firestationToAdd    = firestation1;
+        Firestation firestationToAdd = firestation1;
         when(firestationRepositoryMock.findByAddressAndStation(anyString(),anyString())).thenReturn(Optional.empty());
         when(firestationRepositoryMock.add(any(Firestation.class))).thenReturn(firestationToAdd);
 
@@ -54,12 +54,13 @@ class FirestationServiceImplTest {
         assertThat(result).usingRecursiveComparison().isEqualTo(firestationExpected);
         verify(firestationRepositoryMock,times(1)).findByAddressAndStation("5, road to Nantes", "99");
         verify(firestationRepositoryMock,times(1)).add(firestationToAdd);
+        verifyNoMoreInteractions(firestationRepositoryMock);
     }
 
     @Test
     void addFirestation_shouldReturnAlreadyExistsException() {
         //arrange
-        Firestation firestationToAdd    = firestation1;
+        Firestation firestationToAdd = firestation1;
         when(firestationRepositoryMock.findByAddressAndStation(anyString(),anyString())).thenReturn(Optional.of(firestationToAdd));
 
         //act
@@ -140,9 +141,7 @@ class FirestationServiceImplTest {
     @Test
     void deleteFirestationByStation_shouldBeOK() {
         //arrange
-        List<Firestation> firestations  = new ArrayList<>();
-        firestations.add(firestation1);
-        firestations.add(firestation3);
+        List<Firestation> firestations  = List.of(firestation1, firestation3);
         when(firestationRepositoryMock.findByStation(anyString())).thenReturn(firestations);
 
         //act
