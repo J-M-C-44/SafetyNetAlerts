@@ -34,7 +34,7 @@ class FirestationRepositoryImplTest {
     private static final String STATION_NUMBER = "99";
 
     @Test
-    void findByAddressAndStation_shouldBeOKandReturnFirestation() {
+    void findByAddressAndStation_ShouldBeOKAndReturnFirestation() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -49,7 +49,7 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void findByAddressAndStation_shouldReturnEmptyWhenFirestationNotFound() {
+    void findByAddressAndStation_ShouldReturnEmptyWhenFirestationNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -64,7 +64,7 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void findByAddress_shouldBeOKandReturnFirestation() {
+    void findByAddress_ShouldBeOKAndReturnFirestation() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -79,7 +79,7 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void findByAddress_shouldReturnEmptyWhenFirestationNotFound() {
+    void findByAddress_ShouldReturnEmptyWhenFirestationNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -94,7 +94,7 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void findByStation_shouldBeOKandReturnFirestation() {
+    void findByStation_ShouldBeOKAndReturnFirestation() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -109,7 +109,7 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void findByStation_shouldReturnEmptyWhenFirestationNotFound() {
+    void findByStation_ShouldReturnEmptyWhenFirestationNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestations);
 
@@ -124,11 +124,10 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void delete_shouldBeOK() {
+    void delete_ShouldBeOK() {
         //arrange
         List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
-//        when(jsonDataBaseServiceMock.saveDataBaseInFile()).
 
         //act
         firestationRepositoryImpl.delete(firestation1);
@@ -142,11 +141,10 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void add_shouldBeOK() {
+    void add_ShouldBeOK() {
         //arrange
         List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
-//        when(jsonDataBaseServiceMock.saveDataBaseInFile()).
 
         //act
         Firestation result = firestationRepositoryImpl.add(firestation1);
@@ -162,11 +160,10 @@ class FirestationRepositoryImplTest {
     }
 
     @Test
-    void update_shouldBeOK() {
+    void update_ShouldBeOK() {
         //arrange
         List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
-//        when(jsonDataBaseServiceMock.saveDataBaseInFile()).
 
         //act
         Firestation result = firestationRepositoryImpl.update(firestation1, firestation2);

@@ -36,7 +36,7 @@ class PersonRepositoryImplTest {
     private static final String CITY = "Treillieres";
 
     @Test
-    void findByFirstNameAndLastName_shouldBeOKAndReturnPerson() {
+    void findByFirstNameAndLastName_ShouldBeOKAndReturnPerson() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -51,7 +51,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findByFirstNameAndLastName_shouldReturnEmptyWhenPersonNotFound() {
+    void findByFirstNameAndLastName_ShouldReturnEmptyWhenPersonNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -66,7 +66,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findAllByFirstNameAndLastName_shouldBeOKAndReturnPerson() {
+    void findAllByFirstNameAndLastName_ShouldBeOKAndReturnPerson() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -81,7 +81,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findALLByFirstNameAndLastName_shouldReturnEmptyWhenPersonNotFound() {
+    void findALLByFirstNameAndLastName_ShouldReturnEmptyWhenPersonNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -96,7 +96,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findByAddress_shouldBeOKAndReturnPerson() {
+    void findByAddress_ShouldBeOKAndReturnPerson() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -111,7 +111,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findByAddress_shouldReturnEmptyWhenPersonNotFound() {
+    void findByAddress_ShouldReturnEmptyWhenPersonNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 
@@ -126,7 +126,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void delete_shouldBeOK() {
+    void delete_ShouldBeOK() {
         //arrange
         List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
@@ -143,7 +143,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void add_shouldBeOK() {
+    void add_ShouldBeOK() {
         //arrange
         List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
@@ -162,7 +162,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void update_shouldBeOK() {
+    void update_ShouldBeOK() {
         //arrange
         List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
@@ -182,7 +182,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findEmailsBycity_shouldBeOKAndReturnEmails() {
+    void findEmailsBycity_ShouldBeOKAndReturnEmails() {
         //arrange
         List<String> emails = List.of(person1.getEmail(), person2.getEmail(),person4.getEmail());
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
@@ -198,7 +198,7 @@ class PersonRepositoryImplTest {
     }
 
     @Test
-    void findEmailsBycity_shouldReturnEmptyWhenPersonNotFound() {
+    void findEmailsBycity_ShouldReturnEmptyWhenPersonNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(persons);
 

@@ -16,6 +16,12 @@ public class PersonsCoveredByStation {
         this.childrenCount = 0;
     }
 
+    public PersonsCoveredByStation(List<Person> persons, Integer adultsCount, Integer childrenCount) {
+        this.persons = persons;
+        this.adultsCount = adultsCount;
+        this.childrenCount = childrenCount;
+    }
+
     public void addPerson(Person person) {
         this.persons.add(person);
     }

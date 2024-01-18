@@ -34,7 +34,7 @@ class PersonServiceImplTest {
     PersonServiceImpl personServiceImpl;
     
     @Test
-    void getPerson_shouldBeOKandReturnPerson() {
+    void getPerson_ShouldBeOKAndReturnPerson() {
         //arrange
         Person personToFind = person1;
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(personToFind));
@@ -47,8 +47,9 @@ class PersonServiceImplTest {
         assertThat(result).usingRecursiveComparison().isEqualTo(personExpected);
         verify(personRepositoryMock,times(1)).findByFirstNameAndLastName("Harry", "Covert");
     }
+
     @Test
-    void addPerson_shouldBeOKandReturnPerson() {
+    void addPerson_ShouldBeOKAndReturnPerson() {
         //arrange
         Person personToAdd = person1;
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
@@ -65,7 +66,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void addPerson_shouldReturnAlreadyExistsException() {
+    void addPerson_ShouldReturnAlreadyExistsException() {
         //arrange
         Person personToAdd = person1;
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(personToAdd));
@@ -81,7 +82,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void updatePerson_shouldBeOKandReturnPerson() {
+    void updatePerson_ShouldBeOKAndReturnPerson() {
         //arrange
         Person currentPerson  = person1;
         Person personToUpdate = person2;
@@ -99,7 +100,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void updatePerson_shouldReturnNotFoundException() {
+    void updatePerson_ShouldReturnNotFoundException() {
         //arrange
         Person personToUpdate = person1;
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
@@ -115,7 +116,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void deletePerson_shouldBeOK(){
+    void deletePerson_ShouldBeOK(){
         //arrange
         Person personToDelete = person1;
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(personToDelete));
@@ -130,7 +131,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void deletePerson_shouldReturnNotFoundException(){
+    void deletePerson_ShouldReturnNotFoundException(){
         //arrange
         when(personRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
 
@@ -145,7 +146,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void getCommunityEmails_shouldBeOKandReturnEmailsList() {
+    void getCommunityEmails_ShouldBeOKAndReturnEmailsList() {
         //arrange
         List<String> emails = List.of("harry.covert@gmail.com", "harry.covert2@gmail.com");
         when(personRepositoryMock.findEmailsBycity(anyString())).thenReturn(emails);

@@ -16,9 +16,9 @@ public interface ITransverseService {
 
     List<Person> getPersonsByStation (String stationNumber);
 
-    StationAndCoveredPersonsAndMedicalRecordWithAge getPersonsForFirebyAddress(String address);
+    StationAndCoveredPersonsAndMedicalRecordWithAge getPersonsForFireByAddress(String address);
 
     Map<String, List<PersonAndMedicalRecordWithAge>> getPersonsForFloodByStations(List<String> stationNumbers);
 
-    List<PersonAndMedicalRecordWithAge> getPersonInfobyName(String firstName, String lastName);
+    List<PersonAndMedicalRecordWithAge> getPersonInfoByName(String firstName, String lastName);
 }

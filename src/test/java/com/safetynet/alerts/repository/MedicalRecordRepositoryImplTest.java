@@ -30,7 +30,7 @@ class MedicalRecordRepositoryImplTest {
     private static final String LAST_NAME = "Covert";
 
     @Test
-    void findByFirstNameAndLastName_shouldBeOKAndReturnMedicalRecord() {
+    void findByFirstNameAndLastName_ShouldBeOKAndReturnMedicalRecord() {
         //arrange
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecords);
 
@@ -45,7 +45,7 @@ class MedicalRecordRepositoryImplTest {
     }
 
     @Test
-    void findByFirstNameAndLastName_shouldReturnEmptyWhenMedicalRecordNotFound() {
+    void findByFirstNameAndLastName_ShouldReturnEmptyWhenMedicalRecordNotFound() {
         //arrange
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecords);
 
@@ -60,7 +60,7 @@ class MedicalRecordRepositoryImplTest {
     }
 
     @Test
-    void delete_shouldBeOK() {
+    void delete_ShouldBeOK() {
         //arrange
         List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);
@@ -77,7 +77,7 @@ class MedicalRecordRepositoryImplTest {
     }
 
     @Test
-    void add_shouldBeOK() {
+    void add_ShouldBeOK() {
         //arrange
         List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);
@@ -96,7 +96,7 @@ class MedicalRecordRepositoryImplTest {
     }
 
     @Test
-    void update_shouldBeOK() {
+    void update_ShouldBeOK() {
         //arrange
         List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);

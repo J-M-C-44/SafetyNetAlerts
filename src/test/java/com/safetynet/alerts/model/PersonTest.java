@@ -2,29 +2,22 @@ package com.safetynet.alerts.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
     @Test
-    void toString_shouldCreatePersonAndDisplayAttributes() {
-        //arrange
-
+    void toString_ShouldCreatePersonAndDisplayAttributes() {
         //act
-
         Person person = new Person("Harry","Covert","5, road to Nantes","Treillieres","12345","800-800-1234","harry.covert@gmail.com");
         String result= person.toString();
         String expected = "Person{firstName='Harry', lastName='Covert', address='5, road to Nantes', city='Treillieres', zip=12345, phone='800-800-1234', email='harry.covert@gmail.com'}";
+
         //assert
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    void settersAndGuettersPerson_shouldCreateMedicalrecordAndSetAndGetAttributes() {
-        //arrange
-
+    void settersAndGuettersPerson_ShouldCreateMedicalrecordAndSetAndGetAttributes() {
         //act
         Person person = new Person();
         person.setFirstName("Harry");

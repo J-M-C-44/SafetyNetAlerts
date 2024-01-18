@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -35,12 +34,9 @@ class FirestationServiceImplTest {
     /** Class à tester (avec injection des mocks)*/
     @InjectMocks
     FirestationServiceImpl firestationServiceImpl;
-    // une autre façon de faire
-    // FirestationRepositoryImpl firestationRepositoryMock = mock(FirestationRepositoryImpl.class);
-    // FirestationServiceImpl firestationServiceImpl = new FirestationServiceImpl(firestationRepositoryMock);
 
     @Test
-    void addFirestation_shouldBeOKandReturnFirestation() {
+    void addFirestation_ShouldBeOKAndReturnFirestation() {
         //arrange
         Firestation firestationToAdd = firestation1;
         when(firestationRepositoryMock.findByAddressAndStation(anyString(),anyString())).thenReturn(Optional.empty());
@@ -58,7 +54,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void addFirestation_shouldReturnAlreadyExistsException() {
+    void addFirestation_ShouldReturnAlreadyExistsException() {
         //arrange
         Firestation firestationToAdd = firestation1;
         when(firestationRepositoryMock.findByAddressAndStation(anyString(),anyString())).thenReturn(Optional.of(firestationToAdd));
@@ -74,7 +70,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void updateFirestation_shouldBeOKandReturnFirestation() {
+    void updateFirestation_ShouldBeOKAndReturnFirestation() {
         //arrange
         Firestation currentFirestation  = firestation1;
         Firestation firestationToUpdate = firestation2;
@@ -93,7 +89,7 @@ class FirestationServiceImplTest {
 
 
     @Test
-    void updateFirestation_shouldReturnNotFoundException() {
+    void updateFirestation_ShouldReturnNotFoundException() {
         //arrange
         Firestation firestationToUpdate = firestation2;
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.empty());
@@ -109,7 +105,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void deleteFirestationByAddress_shouldBeOK() {
+    void deleteFirestationByAddress_ShouldBeOK() {
         //arrange
         Firestation firestationToDelete = firestation1;
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.of(firestationToDelete));
@@ -124,7 +120,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void deleteFirestationByAddress_shouldReturnNotFoundException() {
+    void deleteFirestationByAddress_ShouldReturnNotFoundException() {
         //arrange
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.empty());
 
@@ -139,7 +135,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void deleteFirestationByStation_shouldBeOK() {
+    void deleteFirestationByStation_ShouldBeOK() {
         //arrange
         List<Firestation> firestations  = List.of(firestation1, firestation3);
         when(firestationRepositoryMock.findByStation(anyString())).thenReturn(firestations);
@@ -153,7 +149,7 @@ class FirestationServiceImplTest {
     }
 
     @Test
-    void deleteFirestationByStation_shouldReturnNotFoundException() {
+    void deleteFirestationByStation_ShouldReturnNotFoundException() {
         //arrange
         when(firestationRepositoryMock.findByStation(anyString())).thenReturn(Collections.emptyList());
 
@@ -166,6 +162,5 @@ class FirestationServiceImplTest {
         verify(firestationRepositoryMock,times(1)).findByStation("99");
         verifyNoMoreInteractions(firestationRepositoryMock);
     }
-
 
 }

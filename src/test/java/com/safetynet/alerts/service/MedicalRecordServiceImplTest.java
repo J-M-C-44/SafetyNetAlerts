@@ -33,7 +33,7 @@ class MedicalRecordServiceImplTest {
     MedicalRecordServiceImpl medicalRecordServiceImpl;
 
     @Test
-    void getMedicalRecord_shouldBeOKandReturnMedicalRecord() {
+    void getMedicalRecord_ShouldBeOKAndReturnMedicalRecord() {
         //arrange
         MedicalRecord medicalRecordToFind = medicalRecord1;
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecordToFind));
@@ -48,7 +48,7 @@ class MedicalRecordServiceImplTest {
     }
     
     @Test
-    void addMedicalRecord_shouldBeOKandReturnMedicalRecord() {
+    void addMedicalRecord_ShouldBeOKAndReturnMedicalRecord() {
         //arrange
         MedicalRecord medicalRecordToAdd = medicalRecord1;
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
@@ -65,7 +65,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void addMedicalRecord_shouldReturnAlreadyExistsException() {
+    void addMedicalRecord_ShouldReturnAlreadyExistsException() {
         //arrange
         MedicalRecord medicalRecordToAdd = medicalRecord1;
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecordToAdd));
@@ -81,7 +81,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void updateMedicalRecord_shouldBeOKandReturnMedicalRecord() {
+    void updateMedicalRecord_ShouldBeOKAndReturnMedicalRecord() {
         //arrange
         MedicalRecord currentMedicalRecord  = medicalRecord1;
         MedicalRecord medicalRecordToUpdate = medicalRecord2;
@@ -99,7 +99,7 @@ class MedicalRecordServiceImplTest {
     }
     
     @Test
-    void updateMedicalRecord_shouldReturnNotFoundException() {
+    void updateMedicalRecord_ShouldReturnNotFoundException() {
         //arrange
         MedicalRecord medicalRecordToUpdate = medicalRecord1;
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
@@ -115,7 +115,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void deleteMedicalRecord_shouldBeOK(){
+    void deleteMedicalRecord_ShouldBeOK(){
         //arrange
         MedicalRecord medicalRecordToDelete = medicalRecord1;
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecordToDelete));
@@ -130,7 +130,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void deleteMedicalRecord_shouldReturnNotFoundException(){
+    void deleteMedicalRecord_ShouldReturnNotFoundException(){
         //arrange
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
 

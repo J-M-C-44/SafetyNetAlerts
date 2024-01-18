@@ -114,18 +114,17 @@ public class TransverseServiceImpl implements ITransverseService {
     }
 
     @Override
-    //ICIJCO: refaire test endpoint pour vérif valeur null
-    public StationAndCoveredPersonsAndMedicalRecordWithAge getPersonsForFirebyAddress(String address) {
-        logger.debug("  serv - getPersonsForFirebyAddress -1- going to find firestation for address = {}", address);
+    public StationAndCoveredPersonsAndMedicalRecordWithAge getPersonsForFireByAddress(String address) {
+        logger.debug("  serv - getPersonsForFireByAddress -1- going to find firestation for address = {}", address);
         Optional<Firestation> firestation = firestationRepository.findByAddress(address);
         String station = firestation.map(Firestation::getStation).orElse(null);
 
-        logger.debug("  serv - getPersonsForFirebyAddress -2- going to find persons for address = {}", address);
+        logger.debug("  serv - getPersonsForFireByAddress -2- going to find persons for address = {}", address);
         List<Person> persons = personRepository.findByAddress(address);
         if (persons.isEmpty()) {
-            logger.debug("  serv - getPersonsForFirebyAddress -2- KO - person not found: for address = {}", address);
+            logger.debug("  serv - getPersonsForFireByAddress -2- KO - person not found: for address = {}", address);
         } else {
-            logger.debug("  serv - getPersonsForFirebyAddress -3- going to find corresponding medical records for persons= {}", persons);
+            logger.debug("  serv - getPersonsForFireByAddress -3- going to find corresponding medical records for persons= {}", persons);
         }
         return new StationAndCoveredPersonsAndMedicalRecordWithAge(station, getPersonsAndMedicalRecordWithAge(persons));
     }
@@ -155,9 +154,9 @@ public class TransverseServiceImpl implements ITransverseService {
     }
 
     @Override
-    public List<PersonAndMedicalRecordWithAge> getPersonInfobyName(String firstName, String lastName) {
+    public List<PersonAndMedicalRecordWithAge> getPersonInfoByName(String firstName, String lastName) {
 
-        logger.debug("  serv - getPersonInfobyName - going to find persons with firstname = {} and lastname = {}", firstName, lastName);
+        logger.debug("  serv - getPersonInfoByName - going to find persons with firstname = {} and lastname = {}", firstName, lastName);
         List<Person> persons = personRepository.findAllByFirstNameAndLastName(firstName, lastName);
         return getPersonsAndMedicalRecordWithAge(persons);
     }

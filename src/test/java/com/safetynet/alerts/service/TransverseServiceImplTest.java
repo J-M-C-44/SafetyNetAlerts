@@ -48,7 +48,7 @@ class TransverseServiceImplTest {
     private final StationAndCoveredPersonsAndMedicalRecordWithAge stationAndCoveredPersonsAndMedicalRecordWithAge3 = new StationAndCoveredPersonsAndMedicalRecordWithAge(null,List.of(personAndMedicalRecordWithAge1, personAndMedicalRecordWithAge2));
     private final StationAndCoveredPersonsAndMedicalRecordWithAge stationAndCoveredPersonsAndMedicalRecordWithAge4 = new StationAndCoveredPersonsAndMedicalRecordWithAge(STATION_NUMBER,Collections.emptyList());
 
-    /** Service à mocker */
+    /** Services à mocker */
     @Mock
     IFirestationRepository firestationRepositoryMock;
     @Mock
@@ -73,7 +73,6 @@ class TransverseServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName("Justine","Illusion")).thenReturn(Optional.of(medicalRecord2));
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName("Paul","Emploi")).thenReturn(Optional.of(medicalRecord3));
 
-
         //act
         PersonsCoveredByStation result = transverseServiceImpl.getPersonsCoveredByStation(STATION_NUMBER);
         PersonsCoveredByStation expected = new PersonsCoveredByStation();
@@ -81,8 +80,7 @@ class TransverseServiceImplTest {
             expected.incrementAdults();  });
         personsWithAddress2.forEach(person -> { expected.addPerson(person);
             expected.incrementChildren();  });
-
-
+        
         //assert
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);
         verify(firestationRepositoryMock,times(1)).findByStation("99");
@@ -201,6 +199,7 @@ class TransverseServiceImplTest {
         verifyNoMoreInteractions(personRepositoryMock);
         verifyNoInteractions(medicalRecordRepositoryMock);
     }
+    
     @Test
     void getChildrenAndHomeMembersByAddress_shoudReturnEmptyListWhenMedicalRecordNotFound() {
         //arrange
@@ -265,6 +264,7 @@ class TransverseServiceImplTest {
         verify(personRepositoryMock,times(1)).findByAddress("6, street of Brest");
         verifyNoMoreInteractions(personRepositoryMock);
     }
+    
     @Test
     void getPersonsByStation_shoudReturnEmptyListWhenFirestationNotFound() {
         //arrange
@@ -302,7 +302,7 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonsForFirebyAddress_shoudBeOKAndReturnStationAndCoveredPersonsAndMedicalRecordWithAge() {
+    void getPersonsForFireByAddress_shoudBeOKAndReturnStationAndCoveredPersonsAndMedicalRecordWithAge() {
         //arrange
         List<Person> personsWithAddress1 = List.of(person1, person2);
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.of(firestation1));
@@ -311,7 +311,7 @@ class TransverseServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName("Justine","Illusion")).thenReturn(Optional.of(medicalRecord2));
 
         //act
-        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFirebyAddress(ADDRESS);
+        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFireByAddress(ADDRESS);
         StationAndCoveredPersonsAndMedicalRecordWithAge expected = stationAndCoveredPersonsAndMedicalRecordWithAge1;
 
         //assert
@@ -326,7 +326,7 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonsForFirebyAddress_shouldBeOKAndReturnNullStationAndCoveredPersonsAndMedicalRecordWithAgeWhenFirestationNotFound() {
+    void getPersonsForFireByAddress_ShouldBeOKAndReturnNullStationAndCoveredPersonsAndMedicalRecordWithAgeWhenFirestationNotFound() {
         //arrange
         List<Person> personsWithAddress1 = List.of(person1, person2);
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.empty());
@@ -335,7 +335,7 @@ class TransverseServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName("Justine","Illusion")).thenReturn(Optional.of(medicalRecord2));
 
         //act
-        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFirebyAddress(ADDRESS);
+        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFireByAddress(ADDRESS);
         StationAndCoveredPersonsAndMedicalRecordWithAge expected = stationAndCoveredPersonsAndMedicalRecordWithAge3;
 
         //assert
@@ -350,13 +350,13 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonsForFirebyAddress_shouldBeOKAndReturnStationAndEmptyPersonsWhenPersonNotFound() {
+    void getPersonsForFireByAddress_ShouldBeOKAndReturnStationAndEmptyPersonsWhenPersonNotFound() {
         //arrange
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.of(firestation1));
         when(personRepositoryMock.findByAddress(ADDRESS)).thenReturn(Collections.emptyList());
 
         //act
-        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFirebyAddress(ADDRESS);
+        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFireByAddress(ADDRESS);
         StationAndCoveredPersonsAndMedicalRecordWithAge expected = stationAndCoveredPersonsAndMedicalRecordWithAge4;
 
         //assert
@@ -369,8 +369,7 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    //refactor ByAddress
-    void getPersonsForFirebyAddress_shoudBeOKAndReturnStationAndCoveredPersonsEvenIfMedicalRecordsNotFound() {
+    void getPersonsForFireByAddress_shoudBeOKAndReturnStationAndCoveredPersonsEvenIfMedicalRecordsNotFound() {
         //arrange
         List<Person> personsWithAddress1 = List.of(person1, person2);
         when(firestationRepositoryMock.findByAddress(anyString())).thenReturn(Optional.of(firestation1));
@@ -378,7 +377,7 @@ class TransverseServiceImplTest {
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
 
         //act
-        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFirebyAddress(ADDRESS);
+        StationAndCoveredPersonsAndMedicalRecordWithAge result = transverseServiceImpl.getPersonsForFireByAddress(ADDRESS);
         StationAndCoveredPersonsAndMedicalRecordWithAge expected = stationAndCoveredPersonsAndMedicalRecordWithAge2;
 
         //assert
@@ -441,7 +440,6 @@ class TransverseServiceImplTest {
 
         //act
         Map<String, List<PersonAndMedicalRecordWithAge>> result = transverseServiceImpl.getPersonsForFloodByStations(List.of(STATION_NUMBER));
-//        Map<String, List<PersonAndMedicalRecordWithAge>> expected = new HashMap<>();
         Map<String, List<PersonAndMedicalRecordWithAge>> expected = Collections.emptyMap();
 
         //assert
@@ -450,7 +448,6 @@ class TransverseServiceImplTest {
         verifyNoMoreInteractions(firestationRepositoryMock);
         verifyNoInteractions(personRepositoryMock);
         verifyNoInteractions(medicalRecordRepositoryMock);
-
     }
 
     @Test
@@ -495,13 +492,13 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonInfobyName_ShouldBeOKAndReturnPersonsAndMedicalRecordWithAge() {
+    void getPersonInfoByName_ShouldBeOKAndReturnPersonsAndMedicalRecordWithAge() {
         //arrange
         when(personRepositoryMock.findAllByFirstNameAndLastName(anyString(),anyString())).thenReturn(List.of(person1, person1));
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.of(medicalRecord1));
 
         //act
-        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfobyName("Harry", "Covert");
+        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfoByName("Harry", "Covert");
         List<PersonAndMedicalRecordWithAge> expected = List.of(personAndMedicalRecordWithAge1,personAndMedicalRecordWithAge1);
 
         //assert
@@ -513,12 +510,12 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonInfobyName_ShouldReturnEmptyPersonsWhenPersonNotFound() {
+    void getPersonInfoByName_ShouldReturnEmptyPersonsWhenPersonNotFound() {
         //arrange
         when(personRepositoryMock.findAllByFirstNameAndLastName(anyString(),anyString())).thenReturn(Collections.emptyList());
 
         //act
-        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfobyName("Harry", "Covert");
+        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfoByName("Harry", "Covert");
         List<PersonAndMedicalRecordWithAge> expected = Collections.emptyList();
 
         //assert
@@ -529,13 +526,13 @@ class TransverseServiceImplTest {
     }
 
     @Test
-    void getPersonInfobyName_ShouldReturnPersonsWithoutMedicalRecordWithAgeWhenMedicalRecordNotFound() {
+    void getPersonInfoByName_ShouldReturnPersonsWithoutMedicalRecordWithAgeWhenMedicalRecordNotFound() {
         //arrange
         when(personRepositoryMock.findAllByFirstNameAndLastName(anyString(),anyString())).thenReturn(List.of(person1));
         when(medicalRecordRepositoryMock.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(Optional.empty());
 
         //act
-        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfobyName("Harry", "Covert");
+        List<PersonAndMedicalRecordWithAge> result = transverseServiceImpl.getPersonInfoByName("Harry", "Covert");
         List<PersonAndMedicalRecordWithAge> expected = List.of(personAndMedicalRecordWithAge1b);
 
         //assert

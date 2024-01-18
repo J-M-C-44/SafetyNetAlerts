@@ -47,7 +47,6 @@ public class TransverseController {
                 : new ResponseEntity<>(mapperDTO.personsCoveredByStationToPersonsCoveredByStationDTO(personsCoveredByStation), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPersonsCovererdByStation : {}", response);
         return response;
-
     }
 
     @GetMapping("/childAlert")
@@ -60,7 +59,6 @@ public class TransverseController {
                 : new ResponseEntity<>(mapperDTO.childrenAndHomeMembersToChildAlertDTO(childrenAndHomeMembers), HttpStatus.OK);
         logger.info("ctlr - response request - GET getChildrenAndHomeMembers : {}", response);
         return response;
-
     }
 
     @GetMapping("/phoneAlert")
@@ -73,20 +71,18 @@ public class TransverseController {
                 : new ResponseEntity<>(mapperDTO.personsToPhonesAlertDTO(personsByStation), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPhonesByStation : {}", response);
         return response;
-
     }
 
     @GetMapping("/fire")
     public ResponseEntity<FireDTO> getPersonsForFirebByAddress(@NotBlank @RequestParam final String address ) {
-        logger.info("ctlr - received request - GET getPersonsFirebyAddress: stationNumber = {}", address);
+        logger.info("ctlr - received request - GET getPersonsFireByAddress: stationNumber = {}", address);
 
-        StationAndCoveredPersonsAndMedicalRecordWithAge stationAndPersonsForFire = transverseService.getPersonsForFirebyAddress(address);
+        StationAndCoveredPersonsAndMedicalRecordWithAge stationAndPersonsForFire = transverseService.getPersonsForFireByAddress(address);
         ResponseEntity<FireDTO> response = stationAndPersonsForFire.getPersonsAndMedicalRecordWithAge().isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.stationAndCoveredPersonAndMedicalRecordWithAgeToFireDTO(stationAndPersonsForFire), HttpStatus.OK);
-        logger.info("ctlr - response request - GET getPersonsFirebyAddress : {}", response);
+        logger.info("ctlr - response request - GET getPersonsFireByAddress : {}", response);
         return response;
-
     }
 
     @GetMapping("/flood/stations")
@@ -99,21 +95,19 @@ public class TransverseController {
                 : new ResponseEntity<>(mapperDTO.personAndMedicalRecordWithAgeToFloodDTO(personsForFlood), HttpStatus.OK);
         logger.info("ctlr - response request - GET getPersonsForFloodByStations : {}", response);
         return response;
-
     }
 
     @GetMapping("/personInfo")
-    public ResponseEntity<List<PersonInfoDTO>> getPersonInfobyName(@NotBlank @RequestParam final String firstName,
+    public ResponseEntity<List<PersonInfoDTO>> getPersonInfoByName(@NotBlank @RequestParam final String firstName,
                                                               @NotBlank @RequestParam final String lastName ) {
-        logger.info("ctlr - received request - GET getPersonInfobyName: firstName = {}, lastName = {}", firstName, lastName);
+        logger.info("ctlr - received request - GET getPersonInfoByName: firstName = {}, lastName = {}", firstName, lastName);
 
-        List<PersonAndMedicalRecordWithAge> personsInfo = transverseService.getPersonInfobyName(firstName, lastName);
+        List<PersonAndMedicalRecordWithAge> personsInfo = transverseService.getPersonInfoByName(firstName, lastName);
         ResponseEntity<List<PersonInfoDTO>> response = personsInfo.isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(mapperDTO.personAndMedicalRecordWithAgeToPersonsInfoDTO(personsInfo), HttpStatus.OK);
-        logger.info("ctlr - response request - GET getPersonInfobyName : {}", response);
+        logger.info("ctlr - response request - GET getPersonInfoByName : {}", response);
         return response;
-
     }
 
     @GetMapping("/communityEmail")
@@ -127,7 +121,6 @@ public class TransverseController {
                 : new ResponseEntity<>(mapperDTO.emailsToCommunityEmailsDTO(emails), HttpStatus.OK);
         logger.info("ctlr - response request - GET communityEmail : {}", response);
         return response;
-
     }
 
 }

@@ -1,0 +1,36 @@
+{
+  "persons" : [ {
+    "firstName" : "Harry",
+    "lastName" : "Covert",
+    "address" : "5, road to Nantes",
+    "city" : "Treillieres",
+    "zip" : "12345",
+    "phone" : "800-800-1234",
+    "email" : "harry.covert@gmail.com"
+  }, {
+    "firstName" : "Justine",
+    "lastName" : "Illusion",
+    "address" : "5, road to Nantes",
+    "city" : "Treillieres",
+    "zip" : "12345",
+    "phone" : "800-800-2345",
+    "email" : "justine.illusion@gmail.com"
+  } ],
+  "firestations" : [ {
+    "address" : "5, road to Nantes",
+    "station" : "99"
+  } ],
+  "medicalrecords" : [ {
+    "firstName" : "Harry",
+    "lastName" : "Covert",
+    "birthdate" : "12/31/2000",
+    "medications" : [ "suppo:1u", "paracetamol:500mg" ],
+    "allergies" : [ "bouleau" ]
+  }, {
+    "firstName" : "Justine",
+    "lastName" : "Illusion",
+    "birthdate" : "12/31/2011",
+    "medications" : [ "suppo:2u", "paracetamol:1000mg" ],
+    "allergies" : [ "testsUnitaires" ]
+  } ]
+}

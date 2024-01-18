@@ -9,21 +9,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MedicalRecordTest {
 
     @Test
-    void toString_shouldCreateMedicalRecordAndDisplayAttributes() {
-        //arrange
-
+    void toString_ShouldCreateMedicalRecordAndDisplayAttributes() {
         //act
         MedicalRecord medicalRecord = new MedicalRecord("Harry","Covert","12/31/2000", List.of("suppo:1u", "paracetamol:500mg"), List.of("bouleau"));
         String result= medicalRecord.toString();
         String expected = "MedicalRecord{firstName='Harry', lastName='Covert', birthdate='12/31/2000', medications=[suppo:1u, paracetamol:500mg], allergies=[bouleau]}";
+
         //assert
         assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    void settersAndGuettersMedicalRecord_shouldCreateMedicalrecordAndSetAndGetAttributes() {
-        //arrange
-
+    void settersAndGuettersMedicalRecord_ShouldCreateMedicalrecordAndSetAndGetAttributes() {
         //act
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setFirstName("Harry");
