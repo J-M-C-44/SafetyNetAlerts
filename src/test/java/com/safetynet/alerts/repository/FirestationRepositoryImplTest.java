@@ -19,9 +19,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class FirestationRepositoryImplTest {
 
-    /** Service à mocker */
+    /** Service et class à mocker */
     @Mock
     JsonDataBaseService jsonDataBaseServiceMock;
+    @Mock
+    List<Firestation> firestationsMock;
+
     /** Class à tester (avec injection des mocks)*/
     @InjectMocks
     FirestationRepositoryImpl firestationRepositoryImpl;
@@ -126,7 +129,6 @@ class FirestationRepositoryImplTest {
     @Test
     void delete_ShouldBeOK() {
         //arrange
-        List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
 
         //act
@@ -143,7 +145,6 @@ class FirestationRepositoryImplTest {
     @Test
     void add_ShouldBeOK() {
         //arrange
-        List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
 
         //act
@@ -162,7 +163,6 @@ class FirestationRepositoryImplTest {
     @Test
     void update_ShouldBeOK() {
         //arrange
-        List<Firestation> firestationsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getFirestations()).thenReturn(firestationsMock);
 
         //act

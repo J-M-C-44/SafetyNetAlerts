@@ -21,6 +21,8 @@ class PersonRepositoryImplTest {
 
     @Mock
     JsonDataBaseService jsonDataBaseServiceMock;
+    @Mock
+    List<Person> personsMock;
 
     @InjectMocks
     PersonRepositoryImpl personRepositoryImpl;
@@ -128,7 +130,6 @@ class PersonRepositoryImplTest {
     @Test
     void delete_ShouldBeOK() {
         //arrange
-        List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
 
         //act
@@ -145,7 +146,6 @@ class PersonRepositoryImplTest {
     @Test
     void add_ShouldBeOK() {
         //arrange
-        List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
 
         //act
@@ -164,7 +164,6 @@ class PersonRepositoryImplTest {
     @Test
     void update_ShouldBeOK() {
         //arrange
-        List<Person> personsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getPersons()).thenReturn(personsMock);
 
         //act

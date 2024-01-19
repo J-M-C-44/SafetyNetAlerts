@@ -19,6 +19,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 class MedicalRecordRepositoryImplTest {
     @Mock
     JsonDataBaseService jsonDataBaseServiceMock;
+    @Mock
+    List<MedicalRecord> medicalRecordsMock;
     /** Class à tester (avec injection des mocks)*/
     @InjectMocks
     MedicalRecordRepositoryImpl medicalRecordRepositoryImpl;
@@ -62,7 +64,6 @@ class MedicalRecordRepositoryImplTest {
     @Test
     void delete_ShouldBeOK() {
         //arrange
-        List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);
 
         //act
@@ -79,7 +80,6 @@ class MedicalRecordRepositoryImplTest {
     @Test
     void add_ShouldBeOK() {
         //arrange
-        List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);
 
         //act
@@ -98,7 +98,6 @@ class MedicalRecordRepositoryImplTest {
     @Test
     void update_ShouldBeOK() {
         //arrange
-        List<MedicalRecord> medicalRecordsMock = mock(List.class);
         when(jsonDataBaseServiceMock.getMedicalRecords()).thenReturn(medicalRecordsMock);
 
         //act
