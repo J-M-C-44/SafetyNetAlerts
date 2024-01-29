@@ -47,7 +47,7 @@ Cette application a été réalisée dans le cadre d'une formation OpenClassRoom
 - surefire : le rapport est généré ici `/target/site/surefire-report.html` (après `mvn site`)
 
 ## Collection postman
-Un ensemble de tests sur postman est disponible dans `/resources`
+Un ensemble de tests sur postman est disponible dans `/postman`
 
 ## Endspoints
 
