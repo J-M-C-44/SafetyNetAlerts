@@ -12,7 +12,6 @@ Cette application a été réalisée dans le cadre d'une formation OpenClassRoom
 - pré-requis : 
     - JAVA : 21 (ou 17)
     - Maven : 3.9.5
-    - sss
  
 
 - Cloner le repo dans le répertoire de votre choix.
